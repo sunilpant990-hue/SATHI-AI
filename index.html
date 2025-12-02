@@ -3,45 +3,48 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>AI Sathi — Friendly Student AI</title>
+<title>AI Sathi — Big Reply Edition</title>
 <link rel="icon" href="https://i.ibb.co/6XJ5sBX/robot-logo.png">
 <style>
-  :root{
-    --bg:#f6fbff; --card:#ffffff; --accent:#0b63ff; --muted:#6b7280; --text:#0b1220; --user:#0b63ff; --bot-bg:#eef7ff;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:linear-gradient(180deg,#f0f7ff 0%, #f6fbff 100%);color:var(--text);padding:20px;display:flex;justify-content:center;}
-  .app{width:980px;max-width:100%;display:flex;gap:20px;align-items:flex-start;}
-  .panel{width:340px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 24px rgba(15,23,42,0.08);}
-  .logo-row{display:flex;gap:12px;align-items:center} .logo-row img{width:64px;height:64px;border-radius:12px;object-fit:cover}
-  .logo-row h1{margin:0;font-size:20px} .founder{margin-top:8px;color:var(--muted);font-size:13px}
-  .about{margin-top:12px;color:#123;line-height:1.45;font-size:14px}
-  .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-  .btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(10,20,40,0.06);background:transparent;cursor:pointer;font-weight:600;color:var(--text)}
-  .btn.primary{background:var(--accent);color:white;border:0}
-  .small{font-size:13px;color:var(--muted);margin-top:10px}
-  .chat-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
-  .chat-top{display:flex;justify-content:space-between;align-items:center}
-  .title{font-weight:700;font-size:18px} .subtitle{color:var(--muted);font-size:13px}
-  .chat-window{background:transparent;border-radius:12px;padding:16px;height:620px;display:flex;flex-direction:column;box-shadow:0 10px 26px rgba(15,23,42,0.06);}
-  .messages{flex:1;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:10px;background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,252,255,0.6));border-radius:10px;}
-  .msg-row{display:flex;gap:10px;align-items:flex-end}
-  .avatar{width:40px;height:40px;border-radius:8px;flex:0 0 40px;object-fit:cover}
-  .bubble{max-width:72%;padding:10px 12px;border-radius:12px;line-height:1.3;font-size:14px;position:relative;box-shadow:0 6px 18px rgba(12,18,46,0.04);}
-  .bubble.bot{background:var(--bot-bg);color:var(--text);border:1px solid rgba(11,99,255,0.04);align-self:flex-start;}
-  .bubble.user{background:linear-gradient(90deg,var(--user),#0066ff);color:white;align-self:flex-end;border:0;margin-left:auto;}
-  .meta{display:block;font-size:11px;color:var(--muted);margin-top:8px}
-  .controls{display:flex;gap:8px;align-items:center;margin-top:12px}
-  .input-box{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-  .input-box input{width:100%;border:0;background:transparent;outline:none;color:var(--text);font-size:14px;padding:8px}
-  .icon-btn{width:44px;height:44px;border-radius:10px;border:0;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .sec-btn{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid rgba(10,20,40,0.06);cursor:pointer}
-  .typing{display:inline-flex;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(11,99,255,0.06)}
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
-  .dot.d1{animation-delay:0s}.dot.d2{animation-delay:.12s}.dot.d3{animation-delay:.24s}
-  @keyframes blink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}
-  .tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  @media (max-width:980px){ .app{flex-direction:column;align-items:center} .panel{width:100%} .chat-wrap{width:100%} .chat-window{height:70vh} }
+:root{
+  --bg:#f6fbff; --card:#fff; --accent:#0b63ff; --muted:#6b7280; --text:#0b1220; --user:#0b63ff; --bot-bg:#eef7ff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f0f7ff 0%,#f6fbff 100%);color:var(--text);padding:20px;display:flex;justify-content:center;}
+.app{width:980px;max-width:100%;display:flex;gap:20px;align-items:flex-start;}
+.panel{width:340px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 24px rgba(15,23,42,0.08);}
+.logo-row{display:flex;gap:12px;align-items:center}
+.logo-row img{width:64px;height:64px;border-radius:12px;object-fit:cover}
+.logo-row h1{margin:0;font-size:20px}
+.founder{margin-top:8px;color:var(--muted);font-size:13px}
+.about{margin-top:12px;color:#123;line-height:1.45;font-size:14px}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(10,20,40,0.06);background:transparent;cursor:pointer;font-weight:600;color:var(--text)}
+.btn.primary{background:var(--accent);color:white;border:0}
+.small{font-size:13px;color:var(--muted);margin-top:10px}
+.chat-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
+.chat-top{display:flex;justify-content:space-between;align-items:center}
+.title{font-weight:700;font-size:18px}
+.subtitle{color:var(--muted);font-size:13px}
+.chat-window{background:transparent;border-radius:12px;padding:16px;height:640px;display:flex;flex-direction:column;box-shadow:0 10px 26px rgba(15,23,42,0.06);}
+.messages{flex:1;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:10px;background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,252,255,0.6));border-radius:10px;}
+.msg-row{display:flex;gap:10px;align-items:flex-end}
+.avatar{width:40px;height:40px;border-radius:8px;flex:0 0 40px;object-fit:cover}
+.bubble{max-width:72%;padding:10px 12px;border-radius:12px;line-height:1.3;font-size:14px;position:relative;box-shadow:0 6px 18px rgba(12,18,46,0.04);}
+.bubble.bot{background:var(--bot-bg);color:var(--text);border:1px solid rgba(11,99,255,0.04);align-self:flex-start;}
+.bubble.user{background:linear-gradient(90deg,var(--user),#0066ff);color:white;align-self:flex-end;border:0;margin-left:auto;}
+.meta{display:block;font-size:11px;color:var(--muted);margin-top:8px}
+.controls{display:flex;gap:8px;align-items:center;margin-top:12px}
+.input-box{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+.input-box input{width:100%;border:0;background:transparent;outline:none;color:var(--text);font-size:14px;padding:8px}
+.icon-btn{width:44px;height:44px;border-radius:10px;border:0;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sec-btn{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid rgba(10,20,40,0.06);cursor:pointer}
+.typing{display:inline-flex;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(11,99,255,0.06)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
+.dot.d1{animation-delay:0s}.dot.d2{animation-delay:.12s}.dot.d3{animation-delay:.24s}
+@keyframes blink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}
+.tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+@media (max-width:980px){ .app{flex-direction:column;align-items:center} .panel{width:100%} .chat-wrap{width:100%} .chat-window{height:70vh} }
 </style>
 </head>
 <body>
@@ -59,7 +62,7 @@
     <div class="founder">Created by <strong>Sunil Pant</strong></div>
 
     <div class="about">
-      AI Sathi supports Nepali students with exam stress, time-management, sleep tips, confidence-building and study strategies. This demo is offline-first and proof-ready for college applications.
+      AI Sathi supports Nepali students with exam stress, time-management, sleep tips, confidence-building and study strategies. This demo programmatically generates thousands of friendly replies to feel like a real assistant.
     </div>
 
     <div class="actions">
@@ -87,7 +90,7 @@
 
       <div class="controls">
         <div class="input-box">
-          <input id="input" placeholder="Type or say: exam, pressure, nindra audaina, solve 3+5, joke..." />
+          <input id="input" placeholder="Type or say: exam, pressure, nindra audaina, solve 3+5, how, what should I do..." />
         </div>
         <button class="sec-btn" id="micBtn" title="Start/Stop microphone">🎤</button>
         <button class="icon-btn" id="sendBtn" title="Send message">➤</button>
@@ -103,16 +106,15 @@
 </div>
 
 <script>
-/* ===== AI Sathi — Friendly (clean, robust) =====
-   - Replaces previous scripts
-   - Generates many replies using templates (no external API)
-   - Intent detection + safe math
-   - Typing indicator + timestamp
-   - Save/restore/download/copy/export JSON
-   - Mic support (requires HTTPS to work reliably)
+/*
+  AI Sathi — Thousand-plus replies generator
+  - Builds a very large reply pool programmatically (>=2000)
+  - Maintains lastIntent for "how" follow-ups
+  - Works offline (no API required)
+  - Compatible with GitHub Pages
 */
 
-/* ---------- DOM ---------- */
+/* DOM */
 const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 const sendBtn = document.getElementById('sendBtn');
@@ -127,9 +129,12 @@ const btnExample = document.getElementById('btnExample');
 const btnClear = document.getElementById('btnClear');
 const btnExport = document.getElementById('btnExport');
 
-/* ---------- Utilities ---------- */
+let lastIntent = null; // track last detected intent for "how" follow-ups
+
 function now(){ return new Date().toLocaleString(); }
 function avatarImg(who){ return who==='bot' ? 'https://i.ibb.co/6XJ5sBX/robot-logo.png' : 'https://i.ibb.co/0G0Gm8W/user-avatar.png'; }
+function escapeHtml(str){ return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
 function pushMessage(text, who='bot', meta=true){
   const row = document.createElement('div'); row.className='msg-row';
   const av = document.createElement('img'); av.className='avatar'; av.src = avatarImg(who);
@@ -138,144 +143,269 @@ function pushMessage(text, who='bot', meta=true){
   if(who==='user'){ row.appendChild(bubble); row.appendChild(av); bubble.style.marginLeft='auto'; } else { row.appendChild(av); row.appendChild(bubble); }
   messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-function escapeHtml(str){ return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-function showTyping(){
-  const row=document.createElement('div'); row.className='msg-row';
-  row.innerHTML = `<img class="avatar" src="${avatarImg('bot')}"><div class="typing"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div></div>`;
-  messagesEl.appendChild(row);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-  return row;
-}
+
+function showTyping(){ const row=document.createElement('div'); row.className='msg-row'; row.innerHTML = `<img class="avatar" src="${avatarImg('bot')}"><div class="typing"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div></div>`; messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight; return row; }
 function rm(el){ if(el && el.parentNode) el.parentNode.removeChild(el); }
 
-/* ---------- Generate reply pool (templates) ---------- */
-const englishPrefixes = ["Don't worry —","Hey, I got you!","It's okay,","Take a breath —","I understand —","You're not alone —","Relax,","That's normal —","I hear you —","Nice one —"];
-const englishBodies = ["try breaking your study into 25-min focused sessions.","take a 5-minute walk, it helps a lot.","try active recall: read, close book, recall.","talk to one friend or teacher and tell them how you feel.","start with the easiest task and build momentum.","write down three small wins from today.","set a simple plan for the next hour and follow it.","do a short breathing exercise right now.","drink water and rest your eyes for a bit.","practice past papers under timed conditions."];
-const nepaliPrefixes = ["डर नलिनुस —","साथी,","ठीक छ —","एक सास लिनुस —","म बुझ्छु —","तिमी एक्लै होइन —","आराम गनुस —","सामान्य कुरा हो —","म सुनिरहेको छु —","सुरु गर —"];
-const nepaliBodies = ["२५ मिनेट पढेर ५ मिनेट विश्राम गर।","थोरै हिँड्न जाउ, धेरै मद्दत गर्छ।","एक्टिभ रिकॉल अभ्यास गर: पढ, सम्झ, लेख।","एक जना साथी वा अध्यापकसँग कुरा गर।","साना कामबाट सुरु गर, मनोबल बढ्छ।","आजका ३ वटा साना सफलताहरू लेख।","अहिले सानो ब्रेथिङ एक्सरसाइज गर।","पानी पिउ र आँखालाई विश्राम देऊ।","अघिल्ला पेपरहरू समयको साथ अभ्यास गर।","धेरै चिन्ता भए साना कदम लिऊँ।"];
-const closers = ["You got this! 💪","I believe in you.","One step at a time.","Tell me how it goes!","I’m right here with you.","We’ll try again together.","Keep going — small steps win.","I’m proud of your effort.","Stay strong, friend.","Text me anytime."];
-const nepaliClosers = ["तिमीले गर्ज्यौ! 💪","म तिमीमाथि विश्वास गर्छु।","एक कदम एकचोटि।","कसरी भयो भनी बताउ!","म सधैं छुँ।","फेरी संगै गरौँला।","सानो कदमले ठूलो परिणाम ल्याउँछ।","तिम्रो मेहनतमा गर्व छ।","दृढ रहनु साथी।","जब चाहे लेख।"];
+/* ---------- Large reply pool generation ---------- */
 
-function buildPool(){
-  const pool = [];
-  for(const p of englishPrefixes){
-    for(const b of englishBodies){
-      for(let i=0;i<3;i++){
-        pool.push(`${p} ${b} ${closers[(i)%closers.length]}`);
+/* small template arrays */
+const engPrefixes = ["Don't worry —","Hey, I got you!","It's okay,","Take a breath —","I understand —","You're not alone —","Relax,","That's normal —","I hear you —","Nice one —","Sure —","Alright —","Good point —","Sweet —","Super —"];
+const engMiddles = [
+  "try breaking your study into focused sessions of 25 minutes.",
+  "take a 5-minute walk, it helps a lot.",
+  "try active recall: read, close the book, and recall.",
+  "talk to one friend or teacher and tell them how you feel.",
+  "start with the easiest task and build momentum.",
+  "write down three small wins from today.",
+  "set a simple plan for the next hour and follow it.",
+  "do a short breathing exercise right now.",
+  "drink water and rest your eyes for a bit.",
+  "practice past papers under timed conditions."
+];
+const engSuffixes = ["You got this! 💪","I believe in you.","One step at a time.","Tell me how it goes!","I’m right here with you.","We’ll try again together.","Keep going — small steps win.","I’m proud of your effort.","Stay strong, friend.","Text me anytime."];
+
+const npPrefixes = ["डर नलिनुस —","साथी,","ठीक छ —","एक सास लिनुस —","म बुझ्छु —","तिमी एक्लै होइन —","आराम गनुस —","सामान्य कुरा हो —","म सुनिरहेको छु —","सुरु गर —"];
+const npMiddles = [
+  "२५ मिनेट पढेर ५ मिनेट विश्राम गर।",
+  "थोरै हिँड्न जाउ, धेरै मद्दत गर्छ।",
+  "एक्टिभ रिकॉल अभ्यास गर: पढ, सम्झ, लेख।",
+  "एक जना साथी वा अध्यापकसँग कुरा गर।",
+  "साना कामबाट सुरु गर, मनोबल बढ्छ।",
+  "आजका ३ वटा साना सफलताहरू लेख।",
+  "अहिले सानो ब्रेथिङ एक्सरसाइज गर।",
+  "पानी पिउ र आँखालाई विश्राम देऊ।",
+  "अघिल्ला पेपरहरू समयको साथ अभ्यास गर।",
+  "धेरै चिन्ता भए साना कदम लिऊँ।"
+];
+const npSuffixes = ["तिमीले गर्ज्यौ! 💪","म तिमीमाथि विश्वास गर्छु।","एक कदम एकचोटि।","कसरी भयो भनी बताउ!","म सधैं छुँ।","फेरी संगै गरौँला।","सानो कदमले ठूलो परिणाम ल्याउँछ।","तिम्रो मेहनतमा गर्व छ।","दृढ रहनु साथी।","जब चाहे लेख।"];
+
+/* helper to combine and create many unique replies */
+function generateHugePool(){
+  const pool = new Set();
+  // English combinations
+  for(const p of engPrefixes){
+    for(const m of engMiddles){
+      for(const s of engSuffixes){
+        pool.add(`${p} ${m} ${s}`);
       }
     }
   }
-  for(const p of nepaliPrefixes){
-    for(const b of nepaliBodies){
-      for(let i=0;i<3;i++){
-        pool.push(`${p} ${b} ${nepaliClosers[i%nepaliClosers.length]}`);
+  // Nepali combinations
+  for(const p of npPrefixes){
+    for(const m of npMiddles){
+      for(const s of npSuffixes){
+        pool.add(`${p} ${m} ${s}`);
       }
     }
   }
-  // small extras & motivational lines
+  // variations & small replies
   const smalls = [
     "I'm here whenever you want to talk.",
     "Try focusing for 25 minutes, then reward yourself.",
     "A short nap can sometimes reset your focus.",
     "Break tasks into tiny steps and start.",
     "Breathing for one minute can calm your mind.",
-    "Write down what worries you and tackle one item."
+    "Write down what worries you and tackle one item.",
+    "Start small and keep moving forward.",
+    "Plan one topic for 30 minutes and stick to it.",
+    "Talk to one trusted friend, it helps.",
+    "You are doing better than you think."
   ];
-  pool.push(...smalls);
-  pool.push(...nepaliBodies.map((b,i)=>`${nepaliPrefixes[i%nepaliPrefixes.length]} ${b} ${nepaliClosers[i%nepaliClosers.length]}`));
-  const qas = [
-    ["How to study for long exams?","Try spaced repetition and timed past papers. Study 50–60 mins with short breaks."],
-    ["How to deal with family pressure?","Speak honestly with one family member, explain your plan, and ask for support."],
-    ["I can't sleep before exams, help","Avoid screens 30 minutes before bed and try 4-4-4 breathing."],
-    ["How to manage time?","Make a simple schedule with 25–50 minute study blocks and plan breaks."],
-    ["How to build confidence?","Practice small tasks daily and celebrate tiny wins."]
+  smalls.forEach(s => pool.add(s));
+  // add more permutations with emoji and short prefixes
+  const emojis = ["🙂","💪","🔥","🌟","✨","😊","🙌"];
+  const shortStarts = ["Quick tip:","Pro tip:","Friendly tip:","Try this:"];
+  for(let i=0;i<400;i++){
+    const p = shortStarts[i%shortStarts.length];
+    const m = engMiddles[i%engMiddles.length];
+    const e = emojis[i%emojis.length];
+    pool.add(`${p} ${m} ${e}`);
+    pool.add(`${p} ${npMiddles[i%npMiddles.length]} ${npSuffixes[i%npSuffixes.length]}`);
+  }
+  // Add many motivating lines programmatically
+  const baseMotiv = [
+    "Small progress every day adds up.",
+    "Mistakes are feedback — learn and move on.",
+    "Focus on process, not just results.",
+    "Consistent tiny actions compound into big wins.",
+    "Plan, practice, review — repeat."
   ];
-  for(const [q,a] of qas){ pool.push(`${q} — ${a}`); pool.push(`${a} (${["Try it","Give it a go","Start small"][Math.floor(Math.random()*3)]})`); }
-  // ensure many entries
-  while(pool.length < 600) pool.push("Keep trying — one step at a time. Tell me what's next.");
-  return Array.from(new Set(pool));
+  for(let r=0;r<800;r++){
+    const pick = baseMotiv[r % baseMotiv.length];
+    pool.add(`${pick} ${["Keep going","You got this","Try again"][r%3]}`);
+    pool.add(`${pick} — ${["Start with 5 minutes","Write one sentence","Do one problem"][r%3]}`);
+  }
+  // ensure pool size >= 2000
+  const finalArr = Array.from(pool);
+  while(finalArr.length < 2200){
+    finalArr.push("Keep trying — one step at a time. Tell me what's next.");
+  }
+  return finalArr;
 }
-const REPLY_POOL = buildPool();
+
+const LARGE_REPLY_POOL = generateHugePool(); // >=2000 replies
+
+/* ---------- 'How-to' follow-ups (detailed multi-step replies) ---------- */
+const howToMap = {
+  'exam': [
+    "Step 1: List all topics you must cover for the exam.",
+    "Step 2: Break topics into 25–50 minute study blocks (Pomodoro).",
+    "Step 3: Prioritize topics you struggle with and schedule them early.",
+    "Step 4: Do timed past papers every 3–4 study sessions.",
+    "Step 5: Review mistakes and make short notes for quick revision.",
+    "Step 6: Night before: light review only; avoid new topics."
+  ],
+  'stress': [
+    "Step 1: Identify the main source of pressure (task, people, time).",
+    "Step 2: Write down the 3 smallest actions you can take now.",
+    "Step 3: Do a 5-minute breathing exercise (inhale 4s, hold 4s, exhale 4s).",
+    "Step 4: Talk to one trusted friend or family member.",
+    "Step 5: If stress persists, speak to a counselor or teacher."
+  ],
+  'sleep': [
+    "Step 1: Avoid screens for 30 minutes before bed.",
+    "Step 2: Keep bedroom cool and quiet; dim lights 1 hour prior.",
+    "Step 3: Do a short relaxation or breathing exercise.",
+    "Step 4: Keep a consistent sleep schedule, even on weekends.",
+    "Step 5: If insomnia continues, consider professional advice."
+  ],
+  'confidence': [
+    "Step 1: Write 3 things you did well this week.",
+    "Step 2: Practice one small task daily and track progress.",
+    "Step 3: Set micro-goals and celebrate small wins.",
+    "Step 4: Review progress every Sunday and plan next week."
+  ],
+  'college': [
+    "Step 1: Make a list of schools and their application requirements.",
+    "Step 2: Collect evidence of impact (screenshots, link to site, user count).",
+    "Step 3: Draft concise activity descriptions for each application.",
+    "Step 4: Ask a teacher/counselor to review your essays & descriptions."
+  ],
+  'fallback': [
+    "Step 1: Try to rephrase your question in one sentence.",
+    "Step 2: Give one example of what you mean (e.g., 'I can't sleep' details).",
+    "Step 3: I'll respond with step-by-step help after that."
+  ]
+};
 
 /* ---------- Intent detection ---------- */
 function detectIntent(text){
   const t = text.toLowerCase();
   const crisis = ["suicide","kill myself","i want to die","end my life","self harm","suicidal","marna","ma marna","aafai marna"];
-  for(const k of crisis) if(t.includes(k)) return {intent:'crisis'};
-  if(/\b(exam|test|finals|board)\b/.test(t)) return {intent:'exam'};
-  if(/\b(stress|stressed|pressure|overwhelmed|dabav|dabab)\b/.test(t)) return {intent:'stress'};
-  if(/\b(sleep|insomnia|nindra|sutana|nindra audaina)\b/.test(t)) return {intent:'sleep'};
-  if(/\b(confidence|confident|doubt|bharosa|confidence kam)\b/.test(t)) return {intent:'confidence'};
-  if(/\b(lonely|alone|eklo|ekla)\b/.test(t)) return {intent:'lonely'};
-  if(/\b(motivate|motivation|inspire)\b/.test(t)) return {intent:'motivate'};
-  if(/\b(joke|jokes)\b/.test(t)) return {intent:'joke'};
-  if(/\b(fact|facts)\b/.test(t)) return {intent:'fact'};
-  if(/\b(time|date|today|what time)\b/.test(t)) return {intent:'time'};
-  if(/\b(solve|calculate|what is|[0-9]+\s*[\+\-\*\/])/.test(t)) return {intent:'math'};
-  if(/\b(college|apply|application|admission|sat)\b/.test(t)) return {intent:'college'};
-  if(/\b(hi|hello|namaste|hey)\b/.test(t)) return {intent:'greet'};
-  return {intent:'fallback'};
+  for(const k of crisis) if(t.includes(k)) return 'crisis';
+  if(/\b(exam|test|finals|board)\b/.test(t)) return 'exam';
+  if(/\b(stress|stressed|pressure|overwhelmed|dabav|dabab)\b/.test(t)) return 'stress';
+  if(/\b(sleep|insomnia|nindra|sutana|nindra audaina)\b/.test(t)) return 'sleep';
+  if(/\b(confidence|confident|doubt|bharosa|confidence kam)\b/.test(t)) return 'confidence';
+  if(/\b(lonely|alone|eklo|ekla)\b/.test(t)) return 'lonely';
+  if(/\b(motivate|motivation|inspire)\b/.test(t)) return 'motivate';
+  if(/\b(joke|jokes)\b/.test(t)) return 'joke';
+  if(/\b(fact|facts)\b/.test(t)) return 'fact';
+  if(/\b(time|date|today|what time)\b/.test(t)) return 'time';
+  if(/\b(solve|calculate|what is|[0-9]+\s*[\+\-\*\/])/.test(t)) return 'math';
+  if(/\b(college|apply|application|admission|sat)\b/.test(t)) return 'college';
+  if(/\b(hi|hello|namaste|hey)\b/.test(t)) return 'greet';
+  return 'fallback';
 }
 
-/* ---------- Safe math ---------- */
+/* ---------- Safe math eval ---------- */
 function safeEval(expr){
   if(!/^[0-9\.\s\+\-\*\/\(\)]+$/.test(expr)) return {err:'Invalid characters.'};
   try{ const val = Function('"use strict";return ('+expr+')')(); if(typeof val==='number' && isFinite(val)) return {val}; return {err:'Invalid result.'}; } catch(e){ return {err:'Cannot evaluate.'}; }
 }
 
-/* ---------- Reply selection ---------- */
-function replyForIntent(intent, text){
-  if(intent==='crisis') return {text:"If you're thinking about harming yourself, please contact local emergency services and a trusted adult right now. This is an emergency.", urgent:true};
-  if(intent==='math'){ const expr = text.replace(/[^0-9\.\+\-\*\/\(\)\s]/g,'').trim(); const r = safeEval(expr || text); if(r.err) return {text:"I couldn't solve that: "+r.err}; return {text:`Answer: ${r.val}`}; }
-  if(intent==='exam'){ // choose replies mentioning study
-    const picks = REPLY_POOL.filter(s => /study|exam|practice|paper|pomodoro|past/i.test(s));
-    return {text: picks[Math.floor(Math.random()*picks.length)] || REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
+/* ---------- Reply selection & follow-up logic ---------- */
+function replyFor(text){
+  const trimmed = text.trim();
+  const tLower = trimmed.toLowerCase();
+  // follow-up "how" detection (user asks "how" or "what should i do" or "after that")
+  const howWords = ['how','what should i do','what now','after that','then what','how do i','how can i','what next'];
+  const isHow = howWords.some(w => tLower.startsWith(w) || tLower.includes(w));
+  // detect intent from full input if not simple "how"
+  const intent = detectIntent(tLower);
+  // if user asked a pure "how" follow-up and we have lastIntent, return detailed steps
+  if(isHow && lastIntent){
+    const steps = howToMap[lastIntent] || howToMap['fallback'];
+    // build friendly multi-step response
+    const header = `Okay — here's a step-by-step for ${lastIntent}:`;
+    const body = steps.map((s,i)=>`${i+1}. ${s}`).join(' ');
+    return {text: `${header} ${body}`};
   }
-  if(intent==='stress'){ const picks = REPLY_POOL.filter(s=>/stress|pressure|breathe|breathing|relax|rest|calm|overwhelm/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)]}; }
-  if(intent==='sleep'){ const picks = REPLY_POOL.filter(s=>/sleep|nindra|bed|rest|nap/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)] || "Try avoiding screens 30 min before bed and do 4-4-4 breathing."}; }
-  if(intent==='confidence'){ const picks = REPLY_POOL.filter(s=>/confidence|win|small success|celebrate|practice/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)] || "List 3 small wins and repeat."}; }
-  if(intent==='lonely') return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
-  if(intent==='motivate') return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
-  if(intent==='joke') return {text:["Why do programmers prefer dark mode? Because light attracts bugs.","Why did the computer get cold? It left its Windows open."][Math.floor(Math.random()*2)]};
-  if(intent==='fact') return {text:["Practice testing improves retention.","Active recall is more effective than rereading."][Math.floor(Math.random()*2)]};
-  if(intent==='time') return {text:"Current time: "+new Date().toLocaleString()};
-  if(intent==='college') return {text:"Show impact (users), code on GitHub, and a short demo video. I can help you write the activity paragraph."};
-  if(intent==='greet') return {text:["Namaste! I'm AI Sathi — how are you feeling?","Hey! I'm here — tell me what's on your mind."][Math.floor(Math.random()*2)]};
-  // fallback friendly reply
-  return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
+  // Crisis urgent
+  if(intent === 'crisis') return {text: "If you're thinking about harming yourself, contact local emergency services and a trusted adult right now. This is urgent.", urgent:true};
+  // Math
+  if(intent === 'math'){
+    const expr = tLower.replace(/[^0-9\.\+\-\*\/\(\)\s]/g,'').trim();
+    const r = safeEval(expr || tLower);
+    if(r.err) return {text: "I couldn't solve that: " + r.err};
+    return {text: `Answer: ${r.val}`};
+  }
+  // Greeting
+  if(intent === 'greet') { lastIntent = 'greet'; const g = ["Namaste! I'm AI Sathi — how are you feeling?","Hey! I'm here — tell me what's on your mind.","Hello friend! How can I help today?"]; return {text: g[Math.floor(Math.random()*g.length)]}; }
+  // For main intents, set lastIntent and pick friendly reply from large pool filtered by keywords
+  lastIntent = intent;
+  if(intent === 'exam'){
+    // prefer replies mentioning study/pomodoro/papers
+    const picks = LARGE_REPLY_POOL.filter(s => /study|exam|practice|pomodoro|paper|past/i.test(s));
+    return {text: picks[Math.floor(Math.random()*picks.length)] || LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
+  }
+  if(intent === 'stress'){
+    const picks = LARGE_REPLY_POOL.filter(s => /stress|pressure|breathe|breathing|relax|rest|calm|overwhelm/i.test(s));
+    return {text: picks[Math.floor(Math.random()*picks.length)] || LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
+  }
+  if(intent === 'sleep'){
+    const picks = LARGE_REPLY_POOL.filter(s => /sleep|nindra|bed|rest|nap/i.test(s));
+    return {text: picks[Math.floor(Math.random()*picks.length)] || "Try avoiding screens 30 min before bed and do 4-4-4 breathing."};
+  }
+  if(intent === 'confidence'){
+    const picks = LARGE_REPLY_POOL.filter(s => /confidence|win|small success|celebrate|practice/i.test(s));
+    return {text: picks[Math.floor(Math.random()*picks.length)] || "List 3 small wins and repeat."};
+  }
+  if(intent === 'college'){
+    return {text: "For college: show impact (users), code on GitHub, and a short demo video. I can help draft a one-paragraph activity description."};
+  }
+  if(intent === 'joke') return {text: ["Why do programmers prefer dark mode? Because light attracts bugs.","Why did the computer go to the doctor? It had a virus!"][Math.floor(Math.random()*2)]};
+  if(intent === 'fact') return {text: ["Active recall improves memory retention.","Practicing with past papers under timed conditions is very effective."][Math.floor(Math.random()*2)]};
+  if(intent === 'time') return {text: "Current time: " + new Date().toLocaleString()};
+  if(intent === 'lonely' || intent === 'motivate' || intent === 'fallback'){
+    // pick any friendly line from pool
+    return {text: LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
+  }
+  // default fallback
+  return {text: LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
 }
 
 /* ---------- Send flow ---------- */
 function sendText(text){
   const t = text && text.trim();
   if(!t) return;
-  pushMessage(t, 'user');
+  pushMessage(t,'user');
   const typing = showTyping();
   setTimeout(()=>{
     rm(typing);
-    const d = detectIntent(t);
-    const bot = replyForIntent(d.intent, t);
-    pushMessage(bot.text, 'bot');
+    const bot = replyFor(t);
+    pushMessage(bot.text,'bot');
     if(bot.urgent) setTimeout(()=> alert(bot.text), 200);
-  }, 500 + Math.min(900, t.length*8));
+  }, 500 + Math.min(1100, t.length * 8));
 }
 
 /* UI events */
 sendBtn.addEventListener('click', ()=>{ sendText(inputEl.value); inputEl.value=''; inputEl.focus(); });
 inputEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ sendText(inputEl.value); inputEl.value=''; } });
 
-btnExample.addEventListener('click', ()=>{ const ex = ["exam","pressure","nindra audaina","solve 12/3","joke","fact","time","college"]; for(const q of ex){ pushMessage(q,'user',false); sendText(q); }});
+btnExample.addEventListener('click', ()=>{ const ex = ["exam","pressure","nindra audaina","solve 12/3","how can I study","joke","fact","time","how do I prepare for exams"]; for(const q of ex){ pushMessage(q,'user',false); sendText(q); }});
 btnClear.addEventListener('click', ()=>{ if(confirm('Clear chat on screen?')) messagesEl.innerHTML=''; });
 
-/* ---------- Save / restore / download / copy ---------- */
-saveBtn.addEventListener('click', ()=>{ localStorage.setItem('ai_sathi_chat', messagesEl.innerHTML); alert('Chat saved in browser storage.'); });
-restoreBtn.addEventListener('click', ()=>{ const h = localStorage.getItem('ai_sathi_chat'); if(h){ messagesEl.innerHTML = h; messagesEl.scrollTop = messagesEl.scrollHeight; alert('Restored chat.'); } else alert('No saved chat found.'); });
-clearLocalBtn.addEventListener('click', ()=>{ if(confirm('Delete saved chat?')){ localStorage.removeItem('ai_sathi_chat'); alert('Deleted saved chat.'); }});
-downloadBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); const blob = new Blob([txt],{type:'text/plain'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ai_sathi_chat.txt'; a.click(); });
+/* Save / restore / download / copy */
+saveBtn.addEventListener('click', ()=>{ localStorage.setItem('ai_sathi_chat_large', messagesEl.innerHTML); alert('Chat saved in browser storage.'); });
+restoreBtn.addEventListener('click', ()=>{ const h = localStorage.getItem('ai_sathi_chat_large'); if(h){ messagesEl.innerHTML = h; messagesEl.scrollTop = messagesEl.scrollHeight; alert('Restored chat.'); } else alert('No saved chat found.'); });
+clearLocalBtn.addEventListener('click', ()=>{ if(confirm('Delete saved chat?')){ localStorage.removeItem('ai_sathi_chat_large'); alert('Deleted saved chat.'); }});
+downloadBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); const blob = new Blob([txt],{type:'text/plain'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='ai_sathi_chat.txt'; a.click(); });
 copyBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); navigator.clipboard.writeText(txt).then(()=> alert('Chat copied to clipboard.')); });
-btnExport.addEventListener('click', ()=>{ const data={savedAt:new Date().toLocaleString(),content:Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText)}; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='ai_sathi_chat.json'; a.click(); });
+btnExport.addEventListener('click', ()=>{ const data={savedAt:new Date().toLocaleString(),content:Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText)}; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ai_sathi_chat.json'; a.click(); });
 
-/* ---------- Microphone (SpeechRecognition) ---------- */
+/* ---------- Mic (SpeechRecognition) ---------- */
 let recognition = null;
 let listening = false;
 function initMic(){
@@ -298,8 +428,9 @@ micBtn.addEventListener('click', ()=>{
 
 /* ---------- Init ---------- */
 initMic();
-setTimeout(()=> pushMessage("Namaste! I'm AI Sathi — your friendly study & mental support buddy. Try: exam, pressure, nindra audaina, solve 3+5. Save chat for proof.", 'bot'), 300);
+setTimeout(()=> pushMessage("Namaste! I'm AI Sathi — friendly study & mental support buddy. Ask me about exams, pressure, sleep, confidence or say 'how' after a topic for step-by-step help.", 'bot'), 300);
 
 </script>
+
 </body>
 </html>
