@@ -3,496 +3,303 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Sathi AI — Student Support (Sunil Pant)</title>
+<title>AI Sathi — Friendly Student AI</title>
 <link rel="icon" href="https://i.ibb.co/6XJ5sBX/robot-logo.png">
-
 <style>
   :root{
-    --bg:#0f1724;
-    --card:#0b1220;
-    --accent:#00d2b0;
-    --muted:#9aa4b2;
-    --text:#e6eef6;
-    --user:#0b63ff;
+    --bg:#f6fbff; --card:#ffffff; --accent:#0b63ff; --muted:#6b7280; --text:#0b1220; --user:#0b63ff; --bot-bg:#eef7ff;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;
-    background:linear-gradient(180deg,#071026 0%, #081220 100%);
-    color:var(--text);
-    padding:20px;
-  }
-
-  /* Main card */
-  .app {
-    width:990px;
-    max-width:100%;
-    display:flex;
-    gap:24px;
-  }
-
-  /* Left: Info */
-  .panel {
-    width:360px;
-    background:var(--card);
-    border-radius:12px;
-    padding:18px;
-    box-shadow:0 10px 30px rgba(3,6,18,0.6);
-  }
-  .brand {
-    display:flex;
-    gap:12px;
-    align-items:center;
-  }
-  .brand img{width:64px;height:64px;border-radius:10px}
-  .brand h2{margin:0;font-size:18px}
-  .brand p{margin:0;color:var(--muted);font-size:13px}
-  .founder{margin-top:10px;color:var(--muted);font-size:13px}
-
-  .about{margin-top:14px;color:#cfeff2;font-size:14px;line-height:1.45}
-  .hint{margin-top:12px;color:var(--muted);font-size:13px}
-
-  .small-controls{display:flex;gap:8px;margin-top:14px}
-  .btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;background:transparent;color:var(--text);font-weight:600}
-  .btn.primary{background:linear-gradient(90deg,var(--accent),#00a68a); color:#021016; border:0}
-  .btn.warn{background:#ff4d6d;color:white;border:0}
-
-  /* Right: Chat window */
-  .chat-wrap{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-height:520px;
-    max-height:calc(100vh - 80px);
-  }
-  .chat-top{
-    background:var(--card);
-    padding:14px 16px;
-    border-radius:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    box-shadow:0 8px 24px rgba(3,6,18,0.6);
-  }
-  .chat-top .title{font-size:16px;font-weight:700}
-  .chat-top .sub{color:var(--muted);font-size:13px}
-
-  .chat {
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    margin-top:12px;
-    border-radius:12px;
-    padding:16px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    height:420px;
-    overflow:auto;
-  }
-
-  .msg {
-    display:inline-block;
-    padding:10px 12px;
-    border-radius:10px;
-    max-width:78%;
-    line-height:1.3;
-    font-size:14px;
-    position:relative;
-  }
-  .meta {display:block;font-size:11px;color:var(--muted);margin-top:8px}
-
-  .msg.bot {
-    background:rgba(255,255,255,0.03);
-    color:var(--text);
-    border-left:3px solid rgba(255,255,255,0.02);
-    align-self:flex-start;
-    box-shadow: 0 6px 20px rgba(2,6,10,0.4);
-  }
-
-  .msg.user {
-    background:linear-gradient(90deg,var(--user),#0066ff);
-    color:white;
-    align-self:flex-end;
-    box-shadow: 0 6px 18px rgba(3,12,60,0.35);
-  }
-
-  /* Typing indicator */
-  .typing {
-    display:flex;
-    gap:6px;
-    align-items:center;
-    padding:8px 12px;
-    border-radius:10px;
-    background:rgba(255,255,255,0.02);
-    width:fit-content;
-  }
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);opacity:0.8;animation:blink 1s infinite}
-  .dot.d1{animation-delay:0s}.dot.d2{animation-delay:.15s}.dot.d3{animation-delay:.3s}
-  @keyframes blink{0%{opacity:.15}50%{opacity:1}100%{opacity:.15}}
-
-  /* Input area */
-  .controls{
-    display:flex;
-    gap:8px;
-    margin-top:12px;
-    align-items:center;
-  }
-  .input {
-    flex:1;
-    display:flex;
-    gap:8px;
-    align-items:center;
-    background:var(--card);
-    padding:8px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  .input input{
-    width:100%;
-    border:0;
-    background:transparent;
-    outline:none;
-    color:var(--text);
-    font-size:14px;
-    padding:8px;
-  }
-  .icon {
-    width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.02);
-  }
-
-  .small {font-size:12px;color:var(--muted);margin-top:8px;text-align:right}
-
-  /* responsive */
-  @media (max-width:980px){ .app{flex-direction:column;align-items:center} .panel{width:100%;max-width:420px} .chat-wrap{width:100%}}
+  body{margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:linear-gradient(180deg,#f0f7ff 0%, #f6fbff 100%);color:var(--text);padding:20px;display:flex;justify-content:center;}
+  .app{width:980px;max-width:100%;display:flex;gap:20px;align-items:flex-start;}
+  .panel{width:340px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 24px rgba(15,23,42,0.08);}
+  .logo-row{display:flex;gap:12px;align-items:center} .logo-row img{width:64px;height:64px;border-radius:12px;object-fit:cover}
+  .logo-row h1{margin:0;font-size:20px} .founder{margin-top:8px;color:var(--muted);font-size:13px}
+  .about{margin-top:12px;color:#123;line-height:1.45;font-size:14px}
+  .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(10,20,40,0.06);background:transparent;cursor:pointer;font-weight:600;color:var(--text)}
+  .btn.primary{background:var(--accent);color:white;border:0}
+  .small{font-size:13px;color:var(--muted);margin-top:10px}
+  .chat-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
+  .chat-top{display:flex;justify-content:space-between;align-items:center}
+  .title{font-weight:700;font-size:18px} .subtitle{color:var(--muted);font-size:13px}
+  .chat-window{background:transparent;border-radius:12px;padding:16px;height:620px;display:flex;flex-direction:column;box-shadow:0 10px 26px rgba(15,23,42,0.06);}
+  .messages{flex:1;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:10px;background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,252,255,0.6));border-radius:10px;}
+  .msg-row{display:flex;gap:10px;align-items:flex-end}
+  .avatar{width:40px;height:40px;border-radius:8px;flex:0 0 40px;object-fit:cover}
+  .bubble{max-width:72%;padding:10px 12px;border-radius:12px;line-height:1.3;font-size:14px;position:relative;box-shadow:0 6px 18px rgba(12,18,46,0.04);}
+  .bubble.bot{background:var(--bot-bg);color:var(--text);border:1px solid rgba(11,99,255,0.04);align-self:flex-start;}
+  .bubble.user{background:linear-gradient(90deg,var(--user),#0066ff);color:white;align-self:flex-end;border:0;margin-left:auto;}
+  .meta{display:block;font-size:11px;color:var(--muted);margin-top:8px}
+  .controls{display:flex;gap:8px;align-items:center;margin-top:12px}
+  .input-box{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .input-box input{width:100%;border:0;background:transparent;outline:none;color:var(--text);font-size:14px;padding:8px}
+  .icon-btn{width:44px;height:44px;border-radius:10px;border:0;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .sec-btn{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid rgba(10,20,40,0.06);cursor:pointer}
+  .typing{display:inline-flex;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(11,99,255,0.06)}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
+  .dot.d1{animation-delay:0s}.dot.d2{animation-delay:.12s}.dot.d3{animation-delay:.24s}
+  @keyframes blink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}
+  .tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  @media (max-width:980px){ .app{flex-direction:column;align-items:center} .panel{width:100%} .chat-wrap{width:100%} .chat-window{height:70vh} }
 </style>
 </head>
 <body>
 
 <div class="app">
-
-  <!-- Left panel (project info) -->
   <div class="panel">
-    <div class="brand">
-      <img src="https://i.ibb.co/6XJ5sBX/robot-logo.png" alt="Sathi AI logo">
+    <div class="logo-row">
+      <img src="https://i.ibb.co/6XJ5sBX/robot-logo.png" alt="AI Sathi Logo">
       <div>
-        <h2>Sathi AI (साथी AI)</h2>
-        <p class="muted">Study & mental support chatbot — Bilingual</p>
+        <h1>AI Sathi (साथी)</h1>
+        <p style="margin:0;color:var(--muted)">Friendly Student AI — Founder: Sunil Pant</p>
       </div>
     </div>
 
     <div class="founder">Created by <strong>Sunil Pant</strong></div>
 
     <div class="about">
-      Sathi AI helps Nepali students with exam stress, confidence, time management, sleep tips and simple study strategies — in English & Nepali. Designed to be anonymous and educational. Not a replacement for professional counseling.
+      AI Sathi supports Nepali students with exam stress, time-management, sleep tips, confidence-building and study strategies. This demo is offline-first and proof-ready for college applications.
     </div>
 
-    <div class="hint">Quick actions:</div>
-    <div class="small-controls">
+    <div class="actions">
       <button class="btn primary" id="saveBtn">Save Chat</button>
       <button class="btn" id="downloadBtn">Download</button>
       <button class="btn" id="copyBtn">Copy</button>
+      <button class="btn" id="restoreBtn">Restore</button>
+      <button class="btn" id="clearLocalBtn">Delete Saved</button>
     </div>
 
-    <div style="margin-top:12px">
-      <button class="btn" id="restoreBtn">Restore Last Saved</button>
-      <button class="btn warn" id="clearLocalBtn">Delete Saved</button>
-    </div>
-
-    <div class="hint">Mic & Hosting:</div>
-    <div style="font-size:13px;color:var(--muted);line-height:1.4;margin-top:6px">
-      • Microphone needs a secure context (HTTPS) in many browsers. If mic doesn't work locally, publish to GitHub Pages (free) — instructions below. <br>
-      • Chat is saved locally in your browser for proof.
-    </div>
+    <div class="small">Mic note: microphone works best in Chrome/Brave and when hosted over HTTPS (GitHub Pages). Save your chat to prove impact for applications.</div>
   </div>
 
-  <!-- Right: Chat -->
   <div class="chat-wrap">
     <div class="chat-top">
       <div>
-        <div class="title">Sathi AI — Study & Mental Support</div>
-        <div class="sub">Bilingual • Anonymous • Founder: Sunil Pant</div>
+        <div class="title">AI Sathi — Student Support</div>
+        <div class="subtitle">Friendly • Nepali & English • Proof-ready</div>
       </div>
-      <div style="text-align:right;color:var(--muted);font-size:12px">Status: <span id="micStatus">Mic: checking…</span></div>
+      <div style="font-size:13px;color:var(--muted)" id="micIndicator">Mic: checking…</div>
     </div>
 
-    <div id="chat" class="chat" aria-live="polite"></div>
+    <div class="chat-window">
+      <div id="messages" class="messages" role="log" aria-live="polite"></div>
 
-    <div class="controls">
-      <div class="input">
-        <input id="user" type="text" placeholder="Type question or try: 'exam', 'pressure', 'nindra audaina', 'solve 3+5'..." />
+      <div class="controls">
+        <div class="input-box">
+          <input id="input" placeholder="Type or say: exam, pressure, nindra audaina, solve 3+5, joke..." />
+        </div>
+        <button class="sec-btn" id="micBtn" title="Start/Stop microphone">🎤</button>
+        <button class="icon-btn" id="sendBtn" title="Send message">➤</button>
       </div>
-      <div class="icon" id="micBtn" title="Start/Stop microphone">🎤</div>
-      <div class="icon" id="sendBtn" title="Send message">➤</div>
-    </div>
 
-    <div class="small">Tip: If mic doesn't work, you can still type. To host free: GitHub Pages (I can help).</div>
+      <div class="tools" style="margin-top:10px">
+        <button class="btn" id="btnExample">Examples</button>
+        <button class="btn" id="btnClear">Clear Chat</button>
+        <button class="btn" id="btnExport">Export JSON</button>
+      </div>
+    </div>
   </div>
-
 </div>
 
 <script>
-/* === Utility & state === */
-const chatEl = document.getElementById('chat');
-const inputEl = document.getElementById('user');
+/* ===== AI Sathi — Friendly (clean, robust) =====
+   - Replaces previous scripts
+   - Generates many replies using templates (no external API)
+   - Intent detection + safe math
+   - Typing indicator + timestamp
+   - Save/restore/download/copy/export JSON
+   - Mic support (requires HTTPS to work reliably)
+*/
+
+/* ---------- DOM ---------- */
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('input');
 const sendBtn = document.getElementById('sendBtn');
 const micBtn = document.getElementById('micBtn');
+const micIndicator = document.getElementById('micIndicator');
 const saveBtn = document.getElementById('saveBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const copyBtn = document.getElementById('copyBtn');
 const restoreBtn = document.getElementById('restoreBtn');
 const clearLocalBtn = document.getElementById('clearLocalBtn');
-const micStatus = document.getElementById('micStatus');
+const btnExample = document.getElementById('btnExample');
+const btnClear = document.getElementById('btnClear');
+const btnExport = document.getElementById('btnExport');
 
-let recognition = null;
-let listening = false;
-
-function nowStamp(){ return new Date().toLocaleString(); }
-
-function addMessage(text, who='bot', opts={showMeta:true}) {
-  const d = document.createElement('div');
-  d.className = 'msg ' + (who==='user' ? 'user' : 'bot');
-
-  // allow newlines
-  const safe = text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
-  d.innerHTML = safe + (opts.showMeta ? `<span class="meta">${who==='user' ? 'You' : 'Sathi AI'} • ${nowStamp()}</span>` : '');
-  chatEl.appendChild(d);
-  chatEl.scrollTop = chatEl.scrollHeight;
+/* ---------- Utilities ---------- */
+function now(){ return new Date().toLocaleString(); }
+function avatarImg(who){ return who==='bot' ? 'https://i.ibb.co/6XJ5sBX/robot-logo.png' : 'https://i.ibb.co/0G0Gm8W/user-avatar.png'; }
+function pushMessage(text, who='bot', meta=true){
+  const row = document.createElement('div'); row.className='msg-row';
+  const av = document.createElement('img'); av.className='avatar'; av.src = avatarImg(who);
+  const bubble = document.createElement('div'); bubble.className='bubble ' + (who==='user' ? 'user' : 'bot');
+  bubble.innerHTML = escapeHtml(text) + (meta ? `<div class="meta">${who==='user' ? 'You' : 'AI Sathi'} • ${now()}</div>` : '');
+  if(who==='user'){ row.appendChild(bubble); row.appendChild(av); bubble.style.marginLeft='auto'; } else { row.appendChild(av); row.appendChild(bubble); }
+  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
 }
-
-/* Typing indicator */
-function showTyping(duration=700){
-  const t = document.createElement('div');
-  t.className = 'typing';
-  t.innerHTML = '<div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>';
-  chatEl.appendChild(t);
-  chatEl.scrollTop = chatEl.scrollHeight;
-  return t;
+function escapeHtml(str){ return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function showTyping(){
+  const row=document.createElement('div'); row.className='msg-row';
+  row.innerHTML = `<img class="avatar" src="${avatarImg('bot')}"><div class="typing"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div></div>`;
+  messagesEl.appendChild(row);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return row;
 }
+function rm(el){ if(el && el.parentNode) el.parentNode.removeChild(el); }
 
-/* Clear typing */
-function removeElem(el){ if(el && el.parentNode) el.parentNode.removeChild(el); }
+/* ---------- Generate reply pool (templates) ---------- */
+const englishPrefixes = ["Don't worry —","Hey, I got you!","It's okay,","Take a breath —","I understand —","You're not alone —","Relax,","That's normal —","I hear you —","Nice one —"];
+const englishBodies = ["try breaking your study into 25-min focused sessions.","take a 5-minute walk, it helps a lot.","try active recall: read, close book, recall.","talk to one friend or teacher and tell them how you feel.","start with the easiest task and build momentum.","write down three small wins from today.","set a simple plan for the next hour and follow it.","do a short breathing exercise right now.","drink water and rest your eyes for a bit.","practice past papers under timed conditions."];
+const nepaliPrefixes = ["डर नलिनुस —","साथी,","ठीक छ —","एक सास लिनुस —","म बुझ्छु —","तिमी एक्लै होइन —","आराम गनुस —","सामान्य कुरा हो —","म सुनिरहेको छु —","सुरु गर —"];
+const nepaliBodies = ["२५ मिनेट पढेर ५ मिनेट विश्राम गर।","थोरै हिँड्न जाउ, धेरै मद्दत गर्छ।","एक्टिभ रिकॉल अभ्यास गर: पढ, सम्झ, लेख।","एक जना साथी वा अध्यापकसँग कुरा गर।","साना कामबाट सुरु गर, मनोबल बढ्छ।","आजका ३ वटा साना सफलताहरू लेख।","अहिले सानो ब्रेथिङ एक्सरसाइज गर।","पानी पिउ र आँखालाई विश्राम देऊ।","अघिल्ला पेपरहरू समयको साथ अभ्यास गर।","धेरै चिन्ता भए साना कदम लिऊँ।"];
+const closers = ["You got this! 💪","I believe in you.","One step at a time.","Tell me how it goes!","I’m right here with you.","We’ll try again together.","Keep going — small steps win.","I’m proud of your effort.","Stay strong, friend.","Text me anytime."];
+const nepaliClosers = ["तिमीले गर्ज्यौ! 💪","म तिमीमाथि विश्वास गर्छु।","एक कदम एकचोटि।","कसरी भयो भनी बताउ!","म सधैं छुँ।","फेरी संगै गरौँला।","सानो कदमले ठूलो परिणाम ल्याउँछ।","तिम्रो मेहनतमा गर्व छ।","दृढ रहनु साथी।","जब चाहे लेख।"];
 
-/* === Bot brain === */
-/* Arrays for jokes, facts, motivational quotes */
-const JOKES = [
-  "Why did the programmer quit his job? Because he didn't get arrays (a raise)!",
-  "I told my computer I needed a break, and it said: 'No problem — I'll go to sleep.'"
-];
-const FACTS = [
-  "Nepal's internet & mobile usage is growing fast — small digital projects reach many students.",
-  "Practice testing (doing past papers) is one of the best ways to improve exam scores."
-];
-const MOTIV = [
-  "Small daily progress compounds. Do one small thing today and repeat tomorrow.",
-  "Failure is feedback — learn one thing and try again. You are capable."
-];
+function buildPool(){
+  const pool = [];
+  for(const p of englishPrefixes){
+    for(const b of englishBodies){
+      for(let i=0;i<3;i++){
+        pool.push(`${p} ${b} ${closers[(i)%closers.length]}`);
+      }
+    }
+  }
+  for(const p of nepaliPrefixes){
+    for(const b of nepaliBodies){
+      for(let i=0;i<3;i++){
+        pool.push(`${p} ${b} ${nepaliClosers[i%nepaliClosers.length]}`);
+      }
+    }
+  }
+  // small extras & motivational lines
+  const smalls = [
+    "I'm here whenever you want to talk.",
+    "Try focusing for 25 minutes, then reward yourself.",
+    "A short nap can sometimes reset your focus.",
+    "Break tasks into tiny steps and start.",
+    "Breathing for one minute can calm your mind.",
+    "Write down what worries you and tackle one item."
+  ];
+  pool.push(...smalls);
+  pool.push(...nepaliBodies.map((b,i)=>`${nepaliPrefixes[i%nepaliPrefixes.length]} ${b} ${nepaliClosers[i%nepaliClosers.length]}`));
+  const qas = [
+    ["How to study for long exams?","Try spaced repetition and timed past papers. Study 50–60 mins with short breaks."],
+    ["How to deal with family pressure?","Speak honestly with one family member, explain your plan, and ask for support."],
+    ["I can't sleep before exams, help","Avoid screens 30 minutes before bed and try 4-4-4 breathing."],
+    ["How to manage time?","Make a simple schedule with 25–50 minute study blocks and plan breaks."],
+    ["How to build confidence?","Practice small tasks daily and celebrate tiny wins."]
+  ];
+  for(const [q,a] of qas){ pool.push(`${q} — ${a}`); pool.push(`${a} (${["Try it","Give it a go","Start small"][Math.floor(Math.random()*3)]})`); }
+  // ensure many entries
+  while(pool.length < 600) pool.push("Keep trying — one step at a time. Tell me what's next.");
+  return Array.from(new Set(pool));
+}
+const REPLY_POOL = buildPool();
 
-/* Detect intent */
+/* ---------- Intent detection ---------- */
 function detectIntent(text){
   const t = text.toLowerCase();
-
-  // Crisis detection
-  const crisis = ["suicide","kill myself","i want to die","end my life","self harm","suicidal",
-    "marna","ma marna","aafai marne","aafnai marne","aafai marrne"];
-  for(const k of crisis) if(t.includes(k)) return {int:'crisis',lang: /[\u0900-\u097F]/.test(k) ? 'np':'en'};
-
-  // math solver pattern: starts with "solve" or "calculate" or "solve 3+2"
-  if(t.startsWith('solve ') || t.startsWith('calculate ') || /^[-\d\.\s\+\*\/\(\)]+$/.test(t) || t.startsWith('solve:') ) {
-    // We'll try to extract expression
-    const expr = t.replace(/^(solve|calculate|solve:)\s*/,'').trim();
-    if(expr.length>0) return {int:'math', expr};
-  }
-  // english keywords
-  if(/\b(exam|test|finals|board)\b/.test(t)) return {int:'exam'};
-  if(/\b(stress|stressed|pressure|overwhelmed|anxiety)\b/.test(t)) return {int:'pressure'};
-  if(/\b(sleep|insomnia|nindra|nindra audaina|sutana)\b/.test(t)) return {int:'sleep'};
-  if(/\b(confidence|confident|doubt|bharosa|confidence kam)\b/.test(t)) return {int:'confidence'};
-  if(/\b(lonely|alone|eklo|ekla)\b/.test(t)) return {int:'lonely'};
-  if(/\b(motivate|motivation|inspire)\b/.test(t)) return {int:'motivate'};
-  if(/\b(joke|jokes)\b/.test(t)) return {int:'joke'};
-  if(/\b(fact|facts)\b/.test(t)) return {int:'fact'};
-  if(/\b(time|date|what time|today)\b/.test(t)) return {int:'time'};
-  if(/\b(weather|rain|snow|temperature)\b/.test(t)) return {int:'weather'};
-  if(/\b(who are you|who r you|who you)\b/.test(t)) return {int:'who'};
-  if(/\b(hi|hello|namaste|hey)\b/.test(t)) return {int:'greet'};
-  if(/\b(college|admission|apply|sat|application)\b/.test(t)) return {int:'college'};
-  // fallback
-  return {int:'fallback'};
+  const crisis = ["suicide","kill myself","i want to die","end my life","self harm","suicidal","marna","ma marna","aafai marna"];
+  for(const k of crisis) if(t.includes(k)) return {intent:'crisis'};
+  if(/\b(exam|test|finals|board)\b/.test(t)) return {intent:'exam'};
+  if(/\b(stress|stressed|pressure|overwhelmed|dabav|dabab)\b/.test(t)) return {intent:'stress'};
+  if(/\b(sleep|insomnia|nindra|sutana|nindra audaina)\b/.test(t)) return {intent:'sleep'};
+  if(/\b(confidence|confident|doubt|bharosa|confidence kam)\b/.test(t)) return {intent:'confidence'};
+  if(/\b(lonely|alone|eklo|ekla)\b/.test(t)) return {intent:'lonely'};
+  if(/\b(motivate|motivation|inspire)\b/.test(t)) return {intent:'motivate'};
+  if(/\b(joke|jokes)\b/.test(t)) return {intent:'joke'};
+  if(/\b(fact|facts)\b/.test(t)) return {intent:'fact'};
+  if(/\b(time|date|today|what time)\b/.test(t)) return {intent:'time'};
+  if(/\b(solve|calculate|what is|[0-9]+\s*[\+\-\*\/])/.test(t)) return {intent:'math'};
+  if(/\b(college|apply|application|admission|sat)\b/.test(t)) return {intent:'college'};
+  if(/\b(hi|hello|namaste|hey)\b/.test(t)) return {intent:'greet'};
+  return {intent:'fallback'};
 }
 
-/* Safe math evaluation (only digits and operators) */
+/* ---------- Safe math ---------- */
 function safeEval(expr){
-  // allow only numbers, spaces and + - * / ( ) . characters
-  if(!/^[0-9\.\s\+\-\*\/\(\)]+$/.test(expr)) return {err:'Expression contains invalid characters.'};
-  try{
-    // eslint-disable-next-line no-eval
-    const result = Function('"use strict"; return (' + expr + ')')();
-    if(result === Infinity || isNaN(result)) return {err:'Invalid result.'};
-    return {val: result};
-  }catch(e){ return {err:'Cannot evaluate expression.'}; }
+  if(!/^[0-9\.\s\+\-\*\/\(\)]+$/.test(expr)) return {err:'Invalid characters.'};
+  try{ const val = Function('"use strict";return ('+expr+')')(); if(typeof val==='number' && isFinite(val)) return {val}; return {err:'Invalid result.'}; } catch(e){ return {err:'Cannot evaluate.'}; }
 }
 
-/* Generate reply (main) */
-function generateReply(text){
-  const d = detectIntent(text);
-
-  if(d.int === 'crisis'){
-    const msg = "If you are thinking about harming yourself, please contact local emergency services now and reach out to a trusted adult. You are not alone.";
-    return {text: msg, urgent:true};
+/* ---------- Reply selection ---------- */
+function replyForIntent(intent, text){
+  if(intent==='crisis') return {text:"If you're thinking about harming yourself, please contact local emergency services and a trusted adult right now. This is an emergency.", urgent:true};
+  if(intent==='math'){ const expr = text.replace(/[^0-9\.\+\-\*\/\(\)\s]/g,'').trim(); const r = safeEval(expr || text); if(r.err) return {text:"I couldn't solve that: "+r.err}; return {text:`Answer: ${r.val}`}; }
+  if(intent==='exam'){ // choose replies mentioning study
+    const picks = REPLY_POOL.filter(s => /study|exam|practice|paper|pomodoro|past/i.test(s));
+    return {text: picks[Math.floor(Math.random()*picks.length)] || REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
   }
-  if(d.int === 'math'){
-    const res = safeEval(d.expr || text);
-    if(res.err) return {text: "I couldn't solve that: " + res.err};
-    return {text: `Answer: ${res.val}`};
-  }
-  if(d.int === 'exam'){
-    return {text: "Exams are stressful. Try 25-minute focused sessions (Pomodoro), active recall, and timed past-paper practice."};
-  }
-  if(d.int === 'pressure'){
-    return {text: "Pressure from family or studies is common. Try talking to one trusted person and break tasks into small steps."};
-  }
-  if(d.int === 'sleep'){
-    return {text: "Improve sleep: avoid screens 30 minutes before bed, keep a regular schedule, and try 4-4-4 breathing before sleep."};
-  }
-  if(d.int === 'confidence'){
-    return {text: "Lack of confidence doesn't equal lack of ability. List 3 small wins you had this week — celebrate them."};
-  }
-  if(d.int === 'lonely'){
-    return {text: "You're not alone. Consider joining a study group or telling a friend or teacher how you feel."};
-  }
-  if(d.int === 'motivate'){
-    return {text: MOTIV[Math.floor(Math.random()*MOTIV.length)]};
-  }
-  if(d.int === 'joke'){
-    return {text: JOKES[Math.floor(Math.random()*JOKES.length)]};
-  }
-  if(d.int === 'fact'){
-    return {text: FACTS[Math.floor(Math.random()*FACTS.length)]};
-  }
-  if(d.int === 'time'){
-    return {text: "Current time: " + new Date().toLocaleString()};
-  }
-  if(d.int === 'weather'){
-    return {text: "Weather check: I can't access live weather offline, but generally carry a light jacket during monsoon season in Nepal."};
-  }
-  if(d.int === 'who'){
-    return {text: "I'm Sathi AI — a student support chatbot built by Sunil Pant. I provide study tips and mental-health suggestions in Nepali & English."};
-  }
-  if(d.int === 'greet'){
-    return {text: "Namaste! I'm Sathi AI. How are you feeling today?"};
-  }
-  if(d.int === 'college'){
-    return {text: "For college apps: show impact, leadership, code (GitHub), and a small demo video. I can help you draft a 1-paragraph activity description."};
-  }
-  // fallback: try to respond with basic empathy + ask for clarification
-  return {text: "Thanks for sharing. Could you tell me a little more? (Or try keywords: exam, pressure, nindra audaina, solve 3+5)"};
+  if(intent==='stress'){ const picks = REPLY_POOL.filter(s=>/stress|pressure|breathe|breathing|relax|rest|calm|overwhelm/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)]}; }
+  if(intent==='sleep'){ const picks = REPLY_POOL.filter(s=>/sleep|nindra|bed|rest|nap/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)] || "Try avoiding screens 30 min before bed and do 4-4-4 breathing."}; }
+  if(intent==='confidence'){ const picks = REPLY_POOL.filter(s=>/confidence|win|small success|celebrate|practice/i.test(s)); return {text: picks[Math.floor(Math.random()*picks.length)] || "List 3 small wins and repeat."}; }
+  if(intent==='lonely') return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
+  if(intent==='motivate') return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
+  if(intent==='joke') return {text:["Why do programmers prefer dark mode? Because light attracts bugs.","Why did the computer get cold? It left its Windows open."][Math.floor(Math.random()*2)]};
+  if(intent==='fact') return {text:["Practice testing improves retention.","Active recall is more effective than rereading."][Math.floor(Math.random()*2)]};
+  if(intent==='time') return {text:"Current time: "+new Date().toLocaleString()};
+  if(intent==='college') return {text:"Show impact (users), code on GitHub, and a short demo video. I can help you write the activity paragraph."};
+  if(intent==='greet') return {text:["Namaste! I'm AI Sathi — how are you feeling?","Hey! I'm here — tell me what's on your mind."][Math.floor(Math.random()*2)]};
+  // fallback friendly reply
+  return {text: REPLY_POOL[Math.floor(Math.random()*REPLY_POOL.length)]};
 }
 
-/* === Send flow (handles typing animation) === */
-function userSend(text){
-  if(!text || !text.trim()) return;
-  addMessage(text, 'user');
-  // show typing
-  const t = showTyping();
-  setTimeout(()=> {
-    removeElem(t);
-    const bot = generateReply(text);
-    addMessage(bot.text || "Sorry I couldn't respond.", 'bot');
+/* ---------- Send flow ---------- */
+function sendText(text){
+  const t = text && text.trim();
+  if(!t) return;
+  pushMessage(t, 'user');
+  const typing = showTyping();
+  setTimeout(()=>{
+    rm(typing);
+    const d = detectIntent(t);
+    const bot = replyForIntent(d.intent, t);
+    pushMessage(bot.text, 'bot');
     if(bot.urgent) setTimeout(()=> alert(bot.text), 200);
-  }, 700 + Math.min(700, text.length*10) );
+  }, 500 + Math.min(900, t.length*8));
 }
 
-/* === Buttons & keyboard === */
-sendBtn.addEventListener('click', ()=>{ userSend(inputEl.value); inputEl.value=''; inputEl.focus(); });
-inputEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ userSend(inputEl.value); inputEl.value=''; }} );
+/* UI events */
+sendBtn.addEventListener('click', ()=>{ sendText(inputEl.value); inputEl.value=''; inputEl.focus(); });
+inputEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ sendText(inputEl.value); inputEl.value=''; } });
 
-/* === Mic setup === */
-function setupMic(){
-  micStatus.innerText = "Mic: checking…";
-  if(!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)){
-    micStatus.innerText = "Mic: not supported in this browser";
-    micBtn.title = "Mic not supported";
-    micBtn.style.opacity = 0.6;
-    return;
-  }
+btnExample.addEventListener('click', ()=>{ const ex = ["exam","pressure","nindra audaina","solve 12/3","joke","fact","time","college"]; for(const q of ex){ pushMessage(q,'user',false); sendText(q); }});
+btnClear.addEventListener('click', ()=>{ if(confirm('Clear chat on screen?')) messagesEl.innerHTML=''; });
+
+/* ---------- Save / restore / download / copy ---------- */
+saveBtn.addEventListener('click', ()=>{ localStorage.setItem('ai_sathi_chat', messagesEl.innerHTML); alert('Chat saved in browser storage.'); });
+restoreBtn.addEventListener('click', ()=>{ const h = localStorage.getItem('ai_sathi_chat'); if(h){ messagesEl.innerHTML = h; messagesEl.scrollTop = messagesEl.scrollHeight; alert('Restored chat.'); } else alert('No saved chat found.'); });
+clearLocalBtn.addEventListener('click', ()=>{ if(confirm('Delete saved chat?')){ localStorage.removeItem('ai_sathi_chat'); alert('Deleted saved chat.'); }});
+downloadBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); const blob = new Blob([txt],{type:'text/plain'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ai_sathi_chat.txt'; a.click(); });
+copyBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); navigator.clipboard.writeText(txt).then(()=> alert('Chat copied to clipboard.')); });
+btnExport.addEventListener('click', ()=>{ const data={savedAt:new Date().toLocaleString(),content:Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText)}; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='ai_sathi_chat.json'; a.click(); });
+
+/* ---------- Microphone (SpeechRecognition) ---------- */
+let recognition = null;
+let listening = false;
+function initMic(){
+  if(!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)){ micIndicator.innerText='Mic: not supported'; micBtn.title='Mic not supported'; micBtn.style.opacity=0.6; return; }
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SR();
-  recognition.lang = 'en-IN'; // accepts English; Nepali phrases may be recognized OK in some browsers
+  recognition.lang = 'en-US';
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
-
-  recognition.onstart = ()=>{ listening=true; micStatus.innerText = "Mic: listening… (click to stop)"; micBtn.style.background = '#0b3a3a'; }
-  recognition.onend = ()=>{ listening=false; micStatus.innerText = "Mic: idle"; micBtn.style.background = ''; }
-  recognition.onerror = (e)=>{ console.warn('mic error', e); micStatus.innerText = "Mic: error"; alert("Microphone error: " + (e.error||'unknown')); }
-
-  recognition.onresult = (ev) => {
-    const text = ev.results[0][0].transcript;
-    inputEl.value = text;
-    userSend(text);
-    inputEl.value='';
-  };
-
-  micStatus.innerText = "Mic: ready (click mic)";
+  recognition.onstart = ()=>{ listening=true; micIndicator.innerText='Mic: listening... (click to stop)'; micBtn.style.background='#0b63ff'; }
+  recognition.onend = ()=>{ listening=false; micIndicator.innerText='Mic: idle'; micBtn.style.background=''; }
+  recognition.onerror = (e)=>{ listening=false; micIndicator.innerText='Mic: error'; console.warn('Mic error',e); }
+  recognition.onresult = (ev)=>{ const spoken = ev.results[0][0].transcript; inputEl.value = spoken; sendText(spoken); inputEl.value=''; };
+  micIndicator.innerText='Mic: ready (click mic)';
 }
-
-/* mic button toggle */
 micBtn.addEventListener('click', ()=>{
-  if(!recognition){ alert("Microphone not supported in this browser. Use Chrome/Brave or host the page over HTTPS."); return; }
-  if(!listening){ try{ recognition.start(); }catch(e){ console.warn(e); } }
-  else { recognition.stop(); }
+  if(!recognition){ alert('Microphone not supported in this browser. Use Chrome/Brave and/or host the page on GitHub Pages to enable mic.'); return; }
+  if(!listening){ try{ recognition.start(); } catch(e){ console.warn(e); } } else recognition.stop();
 });
 
-/* === Local storage / Save / Download / Copy === */
-function saveChat(){
-  const html = chatEl.innerHTML;
-  localStorage.setItem('sathi_chat_v1', html);
-  alert('Chat saved locally (browser storage).');
-}
-function restoreChat(){
-  const html = localStorage.getItem('sathi_chat_v1');
-  if(html){ chatEl.innerHTML = html; chatEl.scrollTop = chatEl.scrollHeight; alert('Chat restored.'); }
-  else alert('No saved chat found.');
-}
-function clearSaved(){
-  localStorage.removeItem('sathi_chat_v1');
-  alert('Saved chat deleted.');
-}
-function downloadChat(){
-  const text = Array.from(chatEl.querySelectorAll('.msg')).map(m => m.innerText.replace(/\n/g,' ')).join('\n\n');
-  const file = new Blob([text], {type:'text/plain'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(file);
-  a.download = 'sathi_ai_chat.txt';
-  a.click();
-}
-function copyChat(){
-  const text = Array.from(chatEl.querySelectorAll('.msg')).map(m => m.innerText.replace(/\n/g,' ')).join('\n\n');
-  navigator.clipboard.writeText(text).then(()=> alert('Chat copied to clipboard.'));
-}
-
-/* attach buttons */
-saveBtn.addEventListener('click', saveChat);
-restoreBtn.addEventListener('click', restoreChat);
-clearLocalBtn.addEventListener('click', ()=>{ if(confirm('Delete saved chat?')) clearSaved(); });
-downloadBtn.addEventListener('click', downloadChat);
-copyBtn.addEventListener('click', copyChat);
-
-/* init */
-setupMic();
-
-// Initial welcome
-setTimeout(()=>{ addMessage("Namaste! I'm Sathi AI — your study & mental support buddy in Nepal. Try: 'exam', 'pressure', 'nindra audaina', or 'solve 3+5'. Your chat will be saved in the browser for proof.", 'bot') }, 300);
-
-/* restore on load if exists */
-document.addEventListener('DOMContentLoaded', ()=>{ const h = localStorage.getItem('sathi_chat_v1'); if(h) { /*keep empty until user restores*/ } });
+/* ---------- Init ---------- */
+initMic();
+setTimeout(()=> pushMessage("Namaste! I'm AI Sathi — your friendly study & mental support buddy. Try: exam, pressure, nindra audaina, solve 3+5. Save chat for proof.", 'bot'), 300);
 
 </script>
-
 </body>
 </html>
