@@ -1,436 +1,936 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>AI Sathi — Big Reply Edition</title>
-<link rel="icon" href="https://i.ibb.co/6XJ5sBX/robot-logo.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Sathi – Your Exam Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f6fbff; --card:#fff; --accent:#0b63ff; --muted:#6b7280; --text:#0b1220; --user:#0b63ff; --bot-bg:#eef7ff;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f0f7ff 0%,#f6fbff 100%);color:var(--text);padding:20px;display:flex;justify-content:center;}
-.app{width:980px;max-width:100%;display:flex;gap:20px;align-items:flex-start;}
-.panel{width:340px;background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 24px rgba(15,23,42,0.08);}
-.logo-row{display:flex;gap:12px;align-items:center}
-.logo-row img{width:64px;height:64px;border-radius:12px;object-fit:cover}
-.logo-row h1{margin:0;font-size:20px}
-.founder{margin-top:8px;color:var(--muted);font-size:13px}
-.about{margin-top:12px;color:#123;line-height:1.45;font-size:14px}
-.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.btn{padding:8px 10px;border-radius:8px;border:1px solid rgba(10,20,40,0.06);background:transparent;cursor:pointer;font-weight:600;color:var(--text)}
-.btn.primary{background:var(--accent);color:white;border:0}
-.small{font-size:13px;color:var(--muted);margin-top:10px}
-.chat-wrap{flex:1;display:flex;flex-direction:column;gap:12px}
-.chat-top{display:flex;justify-content:space-between;align-items:center}
-.title{font-weight:700;font-size:18px}
-.subtitle{color:var(--muted);font-size:13px}
-.chat-window{background:transparent;border-radius:12px;padding:16px;height:640px;display:flex;flex-direction:column;box-shadow:0 10px 26px rgba(15,23,42,0.06);}
-.messages{flex:1;display:flex;flex-direction:column;gap:12px;overflow:auto;padding:10px;background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(250,252,255,0.6));border-radius:10px;}
-.msg-row{display:flex;gap:10px;align-items:flex-end}
-.avatar{width:40px;height:40px;border-radius:8px;flex:0 0 40px;object-fit:cover}
-.bubble{max-width:72%;padding:10px 12px;border-radius:12px;line-height:1.3;font-size:14px;position:relative;box-shadow:0 6px 18px rgba(12,18,46,0.04);}
-.bubble.bot{background:var(--bot-bg);color:var(--text);border:1px solid rgba(11,99,255,0.04);align-self:flex-start;}
-.bubble.user{background:linear-gradient(90deg,var(--user),#0066ff);color:white;align-self:flex-end;border:0;margin-left:auto;}
-.meta{display:block;font-size:11px;color:var(--muted);margin-top:8px}
-.controls{display:flex;gap:8px;align-items:center;margin-top:12px}
-.input-box{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-.input-box input{width:100%;border:0;background:transparent;outline:none;color:var(--text);font-size:14px;padding:8px}
-.icon-btn{width:44px;height:44px;border-radius:10px;border:0;background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.sec-btn{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid rgba(10,20,40,0.06);cursor:pointer}
-.typing{display:inline-flex;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(11,99,255,0.06)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
-.dot.d1{animation-delay:0s}.dot.d2{animation-delay:.12s}.dot.d3{animation-delay:.24s}
-@keyframes blink{0%{opacity:.2}50%{opacity:1}100%{opacity:.2}}
-.tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-@media (max-width:980px){ .app{flex-direction:column;align-items:center} .panel{width:100%} .chat-wrap{width:100%} .chat-window{height:70vh} }
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --card: #20243a;
+    --border: #2e3354;
+    --accent: #6c8fff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --user-bubble: #2563eb;
+    --bot-bubble: #1e2240;
+    --danger: #f87171;
+    --warn: #fbbf24;
+    --glow: rgba(108,143,255,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    width: 100%;
+    background: linear-gradient(135deg, #151929 0%, #1a1d2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 18px var(--glow);
+  }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900; font-size: 1.3rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .logo-sub { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.08em; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .header-badge {
+    background: rgba(52,211,153,0.12); color: var(--accent3);
+    border: 1px solid rgba(52,211,153,0.3);
+    border-radius: 20px; padding: 4px 12px; font-size: 0.72rem; font-weight: 600;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .dot-live { width: 7px; height: 7px; background: var(--accent3); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .credit { font-size: 0.68rem; color: var(--muted); }
+
+  /* ── LAYOUT ── */
+  .main-wrapper {
+    width: 100%; max-width: 1100px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    gap: 0;
+    height: calc(100vh - 70px);
+    padding: 0;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 16px;
+    display: flex; flex-direction: column; gap: 16px;
+    overflow-y: auto;
+  }
+  .sidebar-section-title {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .quick-btn {
+    width: 100%; text-align: left;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px;
+    color: var(--text); font-size: 0.8rem; font-family: 'Poppins', sans-serif;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .quick-btn:hover { background: var(--border); border-color: var(--accent); color: #fff; transform: translateX(3px); }
+  .quick-btn .qb-icon { font-size: 1rem; }
+
+  .mood-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mood-btn {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 8px;
+    color: var(--text); font-size: 0.75rem; font-family: 'Poppins', sans-serif;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .mood-btn:hover { background: var(--border); border-color: var(--accent2); }
+  .mood-emoji { font-size: 1.4rem; display: block; margin-bottom: 3px; }
+
+  .tip-card {
+    background: linear-gradient(135deg, rgba(108,143,255,0.1), rgba(167,139,250,0.1));
+    border: 1px solid rgba(108,143,255,0.25);
+    border-radius: 12px; padding: 14px;
+    font-size: 0.78rem; color: var(--muted); line-height: 1.6;
+  }
+  .tip-card strong { color: var(--accent2); display: block; margin-bottom: 5px; }
+
+  /* ── CHAT AREA ── */
+  .chat-wrapper {
+    display: flex; flex-direction: column;
+    background: var(--bg);
+    height: 100%;
+    position: relative;
+  }
+  .chat-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .chat-toolbar-left { display: flex; align-items: center; gap: 10px; }
+  .chat-avatar {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .chat-name { font-weight: 600; font-size: 0.9rem; }
+  .chat-status { font-size: 0.7rem; color: var(--accent3); }
+  .chat-toolbar-right { display: flex; gap: 8px; }
+  .toolbar-btn {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); border-radius: 8px; padding: 6px 14px;
+    font-size: 0.75rem; font-family: 'Poppins', sans-serif;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px;
+  }
+  .toolbar-btn:hover { background: var(--border); }
+  .toolbar-btn.reset { color: var(--danger); border-color: rgba(248,113,113,0.3); }
+  .toolbar-btn.reset:hover { background: rgba(248,113,113,0.1); }
+
+  /* messages */
+  #chat-messages {
+    flex: 1; overflow-y: auto;
+    padding: 20px 20px 10px;
+    display: flex; flex-direction: column; gap: 14px;
+    scroll-behavior: smooth;
+  }
+  #chat-messages::-webkit-scrollbar { width: 5px; }
+  #chat-messages::-webkit-scrollbar-track { background: transparent; }
+  #chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  .msg-row { display: flex; align-items: flex-end; gap: 10px; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  .msg-row.user { flex-direction: row-reverse; }
+
+  .msg-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .msg-avatar.bot { background: linear-gradient(135deg,var(--accent),var(--accent2)); }
+  .msg-avatar.user { background: var(--user-bubble); }
+
+  .bubble {
+    max-width: 72%; padding: 12px 16px;
+    border-radius: 18px; font-size: 0.85rem; line-height: 1.65;
+    position: relative;
+  }
+  .bubble.bot {
+    background: var(--bot-bubble);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+  }
+  .bubble.user {
+    background: var(--user-bubble);
+    border-bottom-right-radius: 4px;
+    color: #fff;
+  }
+  .bubble .timestamp {
+    font-size: 0.62rem; color: var(--muted);
+    display: block; margin-top: 5px;
+    text-align: right;
+  }
+  .bubble.user .timestamp { color: rgba(255,255,255,0.5); }
+
+  .typing-indicator {
+    display: flex; align-items: center; gap: 4px;
+    padding: 14px 18px; background: var(--bot-bubble);
+    border: 1px solid var(--border); border-radius: 18px; border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .typing-dot {
+    width: 7px; height: 7px; background: var(--muted); border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dot:nth-child(2){animation-delay:0.2s;}
+  .typing-dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-7px);}}
+
+  .suggestion-chips {
+    display: flex; flex-wrap: wrap; gap: 7px;
+    padding: 0 20px 12px;
+  }
+  .chip {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--accent); border-radius: 20px; padding: 6px 14px;
+    font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+    font-family: 'Poppins', sans-serif;
+  }
+  .chip:hover { background: var(--border); color: #fff; }
+
+  /* input bar */
+  .input-bar {
+    padding: 14px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  #user-input {
+    flex: 1;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 11px 16px;
+    color: var(--text); font-size: 0.85rem; font-family: 'Poppins', sans-serif;
+    outline: none; resize: none; max-height: 100px; min-height: 44px;
+    transition: border 0.2s;
+  }
+  #user-input:focus { border-color: var(--accent); }
+  #user-input::placeholder { color: var(--muted); }
+  .send-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 12px;
+    width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; transition: all 0.2s;
+    box-shadow: 0 4px 15px var(--glow);
+  }
+  .send-btn:hover { transform: scale(1.07); }
+
+  /* mood tracker */
+  .mood-tracker-bar {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 8px 20px; display: flex; align-items: center; gap: 12px;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .mood-icon { font-size: 1rem; }
+
+  /* welcome banner */
+  .welcome-msg {
+    text-align: center; padding: 30px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .welcome-emoji { font-size: 3rem; animation: wave 2s infinite; }
+  @keyframes wave{0%,100%{transform:rotate(0);}25%{transform:rotate(15deg);}75%{transform:rotate(-10deg);}}
+  .welcome-title {
+    font-family:'Nunito',sans-serif; font-weight:900; font-size:1.6rem;
+    background: linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .welcome-sub { color: var(--muted); font-size: 0.82rem; max-width: 340px; line-height: 1.6; }
+
+  /* Footer */
+  .footer-credit {
+    text-align: center; font-size: 0.68rem; color: var(--muted);
+    padding: 6px; background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  /* responsive */
+  @media(max-width:700px){
+    .main-wrapper{ grid-template-columns:1fr; }
+    .sidebar{ display:none; }
+  }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <div class="panel">
-    <div class="logo-row">
-      <img src="https://i.ibb.co/6XJ5sBX/robot-logo.png" alt="AI Sathi Logo">
-      <div>
-        <h1>AI Sathi (साथी)</h1>
-        <p style="margin:0;color:var(--muted)">Friendly Student AI — Founder: Sunil Pant</p>
+<header>
+  <div class="logo">
+    <div class="logo-icon">🧠</div>
+    <div class="logo-text">
+      <span class="logo-title">AI Sathi</span>
+      <span class="logo-sub">Mental Wellness · Exam Support</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-badge"><span class="dot-live"></span> Online</div>
+    <span class="credit">By Sunil Pant</span>
+  </div>
+</header>
+
+<div class="main-wrapper">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div>
+      <div class="sidebar-section-title">Quick Topics</div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <button class="quick-btn" onclick="sendQuick('I am feeling stressed about exams')"><span class="qb-icon">😰</span>Exam Stress</button>
+        <button class="quick-btn" onclick="sendQuick('I cannot focus while studying')"><span class="qb-icon">🎯</span>Focus Issues</button>
+        <button class="quick-btn" onclick="sendQuick('I have exam anxiety')"><span class="qb-icon">😟</span>Exam Anxiety</button>
+        <button class="quick-btn" onclick="sendQuick('I am not able to sleep well')"><span class="qb-icon">😴</span>Sleep Problems</button>
+        <button class="quick-btn" onclick="sendQuick('Give me study tips')"><span class="qb-icon">📚</span>Study Tips</button>
+        <button class="quick-btn" onclick="sendQuick('How to manage time for exams')"><span class="qb-icon">⏰</span>Time Management</button>
+        <button class="quick-btn" onclick="sendQuick('I feel like giving up')"><span class="qb-icon">💔</span>Feeling Low</button>
+        <button class="quick-btn" onclick="sendQuick('I am scared of failing')"><span class="qb-icon">😨</span>Fear of Failure</button>
+        <button class="quick-btn" onclick="sendQuick('Give me motivation')"><span class="qb-icon">🔥</span>Need Motivation</button>
+        <button class="quick-btn" onclick="sendQuick('How to relax and calm down')"><span class="qb-icon">🌿</span>Relaxation</button>
+        <button class="quick-btn" onclick="sendQuick('I am feeling lonely')"><span class="qb-icon">🕊️</span>Loneliness</button>
+        <button class="quick-btn" onclick="sendQuick('My parents are pressuring me')"><span class="qb-icon">👨‍👩‍👦</span>Family Pressure</button>
+        <button class="quick-btn" onclick="sendQuick('Tell me a joke to cheer me up')"><span class="qb-icon">😄</span>Cheer Me Up</button>
+        <button class="quick-btn" onclick="sendQuick('How to do revision effectively')"><span class="qb-icon">📝</span>Revision Help</button>
+        <button class="quick-btn" onclick="sendQuick('I am feeling overwhelmed')"><span class="qb-icon">🌊</span>Overwhelmed</button>
       </div>
     </div>
 
-    <div class="founder">Created by <strong>Sunil Pant</strong></div>
-
-    <div class="about">
-      AI Sathi supports Nepali students with exam stress, time-management, sleep tips, confidence-building and study strategies. This demo programmatically generates thousands of friendly replies to feel like a real assistant.
+    <div>
+      <div class="sidebar-section-title">How Are You Feeling?</div>
+      <div class="mood-grid">
+        <button class="mood-btn" onclick="sendQuick('I am feeling happy today')"><span class="mood-emoji">😊</span>Happy</button>
+        <button class="mood-btn" onclick="sendQuick('I am feeling sad today')"><span class="mood-emoji">😔</span>Sad</button>
+        <button class="mood-btn" onclick="sendQuick('I am feeling anxious')"><span class="mood-emoji">😬</span>Anxious</button>
+        <button class="mood-btn" onclick="sendQuick('I am feeling confused')"><span class="mood-emoji">😕</span>Confused</button>
+        <button class="mood-btn" onclick="sendQuick('I am feeling angry')"><span class="mood-emoji">😤</span>Angry</button>
+        <button class="mood-btn" onclick="sendQuick('I am feeling exhausted')"><span class="mood-emoji">😩</span>Exhausted</button>
+      </div>
     </div>
 
-    <div class="actions">
-      <button class="btn primary" id="saveBtn">Save Chat</button>
-      <button class="btn" id="downloadBtn">Download</button>
-      <button class="btn" id="copyBtn">Copy</button>
-      <button class="btn" id="restoreBtn">Restore</button>
-      <button class="btn" id="clearLocalBtn">Delete Saved</button>
+    <div class="tip-card">
+      <strong>💡 Quick Tip</strong>
+      Try the 5-4-3-2-1 grounding technique: name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste. Instant calm!
     </div>
 
-    <div class="small">Mic note: microphone works best in Chrome/Brave and when hosted over HTTPS (GitHub Pages). Save your chat to prove impact for applications.</div>
+    <div class="tip-card" style="background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(52,211,153,0.04));border-color:rgba(52,211,153,0.25);">
+      <strong style="color:var(--accent3);">🎯 Remember</strong>
+      Exams test your memory, not your worth. You are more than your grades. Sunil Pant & AI Sathi are here for you 💙
+    </div>
   </div>
 
-  <div class="chat-wrap">
-    <div class="chat-top">
-      <div>
-        <div class="title">AI Sathi — Student Support</div>
-        <div class="subtitle">Friendly • Nepali & English • Proof-ready</div>
+  <!-- CHAT AREA -->
+  <div class="chat-wrapper">
+    <div class="chat-toolbar">
+      <div class="chat-toolbar-left">
+        <div class="chat-avatar">🤖</div>
+        <div>
+          <div class="chat-name">AI Sathi</div>
+          <div class="chat-status">● Always here for you</div>
+        </div>
       </div>
-      <div style="font-size:13px;color:var(--muted)" id="micIndicator">Mic: checking…</div>
+      <div class="chat-toolbar-right">
+        <button class="toolbar-btn" onclick="exportChat()">📥 Export</button>
+        <button class="toolbar-btn reset" onclick="resetChat()">🔄 Reset</button>
+      </div>
     </div>
 
-    <div class="chat-window">
-      <div id="messages" class="messages" role="log" aria-live="polite"></div>
-
-      <div class="controls">
-        <div class="input-box">
-          <input id="input" placeholder="Type or say: exam, pressure, nindra audaina, solve 3+5, how, what should I do..." />
-        </div>
-        <button class="sec-btn" id="micBtn" title="Start/Stop microphone">🎤</button>
-        <button class="icon-btn" id="sendBtn" title="Send message">➤</button>
+    <div id="chat-messages">
+      <div class="welcome-msg">
+        <div class="welcome-emoji">👋</div>
+        <div class="welcome-title">Namaste! I'm AI Sathi</div>
+        <div class="welcome-sub">Your personal mental wellness companion during exams. I'm here to listen, support, and guide you — no judgment, always kind.</div>
       </div>
+    </div>
 
-      <div class="tools" style="margin-top:10px">
-        <button class="btn" id="btnExample">Examples</button>
-        <button class="btn" id="btnClear">Clear Chat</button>
-        <button class="btn" id="btnExport">Export JSON</button>
-      </div>
+    <div class="suggestion-chips" id="chips">
+      <span class="chip" onclick="sendQuick('Hello')">👋 Say Hello</span>
+      <span class="chip" onclick="sendQuick('I am stressed')">😰 I'm stressed</span>
+      <span class="chip" onclick="sendQuick('Give me a study tip')">📚 Study tip</span>
+      <span class="chip" onclick="sendQuick('I need motivation')">🔥 Motivate me</span>
+      <span class="chip" onclick="sendQuick('How to breathe to calm down')">🌿 Calm me</span>
+    </div>
+
+    <div class="input-bar">
+      <textarea id="user-input" placeholder="Type your message here... (Press Enter to send)" rows="1"></textarea>
+      <button class="send-btn" onclick="sendMessage()">➤</button>
     </div>
   </div>
 </div>
 
+<div class="footer-credit">AI Sathi – Made with 💙 by Sunil Pant | Supporting Students' Mental Health</div>
+
 <script>
-/*
-  AI Sathi — Thousand-plus replies generator
-  - Builds a very large reply pool programmatically (>=2000)
-  - Maintains lastIntent for "how" follow-ups
-  - Works offline (no API required)
-  - Compatible with GitHub Pages
-*/
+// ══════════════════════════════════════════════
+//   AI SATHI – MENTAL HEALTH CHATBOT ENGINE
+//   Built by Sunil Pant
+// ══════════════════════════════════════════════
 
-/* DOM */
-const messagesEl = document.getElementById('messages');
-const inputEl = document.getElementById('input');
-const sendBtn = document.getElementById('sendBtn');
-const micBtn = document.getElementById('micBtn');
-const micIndicator = document.getElementById('micIndicator');
-const saveBtn = document.getElementById('saveBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const copyBtn = document.getElementById('copyBtn');
-const restoreBtn = document.getElementById('restoreBtn');
-const clearLocalBtn = document.getElementById('clearLocalBtn');
-const btnExample = document.getElementById('btnExample');
-const btnClear = document.getElementById('btnClear');
-const btnExport = document.getElementById('btnExport');
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+let messageHistory = [];
+let botIsTyping = false;
 
-let lastIntent = null; // track last detected intent for "how" follow-ups
+// ── RESPONSE DATABASE (2000+ replies via patterns + arrays) ──
 
-function now(){ return new Date().toLocaleString(); }
-function avatarImg(who){ return who==='bot' ? 'https://i.ibb.co/6XJ5sBX/robot-logo.png' : 'https://i.ibb.co/0G0Gm8W/user-avatar.png'; }
-function escapeHtml(str){ return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+const RESPONSES = {
 
-function pushMessage(text, who='bot', meta=true){
-  const row = document.createElement('div'); row.className='msg-row';
-  const av = document.createElement('img'); av.className='avatar'; av.src = avatarImg(who);
-  const bubble = document.createElement('div'); bubble.className='bubble ' + (who==='user' ? 'user' : 'bot');
-  bubble.innerHTML = escapeHtml(text) + (meta ? `<div class="meta">${who==='user' ? 'You' : 'AI Sathi'} • ${now()}</div>` : '');
-  if(who==='user'){ row.appendChild(bubble); row.appendChild(av); bubble.style.marginLeft='auto'; } else { row.appendChild(av); row.appendChild(bubble); }
-  messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight;
-}
+  // ── GREETINGS ──
+  greetings: {
+    triggers: ['hello','hi','hey','namaste','namaskar','helo','hii','hola','howdy','sup','yo','greetings','good morning','good afternoon','good evening','good night','morning','evening'],
+    replies: [
+      "Hey there! 😊 So happy you reached out. How are you doing today? Remember, whatever you're going through, you don't have to face it alone!",
+      "Hello! 🌟 Welcome to AI Sathi! I'm here just for you. How's your day going so far?",
+      "Namaste! 🙏 It's so good to see you here. How are you feeling right now? Let's talk!",
+      "Hi hi hi! 😄 You just made my day by showing up. What's on your mind?",
+      "Hey! Great that you're here. How are things? Remember — one step at a time. 💙",
+      "Hello friend! I'm AI Sathi, your exam companion. What can I help you with today? 🌸",
+      "Namaste! 🌼 Whether you're stressed, tired, or just want to chat — I'm all ears! How are you?",
+      "Hey! 👋 Good to see you. How's the studying going? Or just want to vent? I'm here!",
+      "Hi there! 😊 I'm so glad you opened AI Sathi today. Tell me, how are you really doing?",
+      "Hello sunshine! ☀️ Even on difficult days, you showed up — that takes courage. What's up?",
+    ]
+  },
 
-function showTyping(){ const row=document.createElement('div'); row.className='msg-row'; row.innerHTML = `<img class="avatar" src="${avatarImg('bot')}"><div class="typing"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div></div>`; messagesEl.appendChild(row); messagesEl.scrollTop = messagesEl.scrollHeight; return row; }
-function rm(el){ if(el && el.parentNode) el.parentNode.removeChild(el); }
+  // ── HOW ARE YOU ──
+  howAreYou: {
+    triggers: ['how are you','how r u','how are u','hows it going','how do you do','how are things','whats up','what\'s up','wassup','wyd','how have you been'],
+    replies: [
+      "I'm doing great, thank you for asking! 😊 But more importantly — how are YOU? You're the one I'm here for!",
+      "I'm always energized when I get to help someone like you! How are you holding up? 💙",
+      "I'm wonderful! But honestly, I care more about how YOU are doing. Tell me everything! 😄",
+      "Haha, I'm a bot — so I'm always in top shape! 😂 But seriously, how are you feeling today?",
+      "I'm great! Ready to support you through whatever you're facing. What's going on? 🌟",
+    ]
+  },
 
-/* ---------- Large reply pool generation ---------- */
+  // ── THANKS ──
+  thanks: {
+    triggers: ['thank you','thanks','thank u','thankyou','thx','ty','dhanyabad','shukriya','appreciate','grateful'],
+    replies: [
+      "Aww, you're so welcome! 💙 That's exactly what I'm here for. Anything else you'd like to talk about?",
+      "No need to thank me — helping you is my purpose! 😊 You've got this, friend!",
+      "You're very welcome! 🌸 Remember, reaching out is itself a sign of strength. I'm proud of you!",
+      "Of course! Any time, always! 🌟 Is there anything else weighing on your mind?",
+      "It's my pleasure! 💫 You deserve all the support in the world. Keep going!",
+    ]
+  },
 
-/* small template arrays */
-const engPrefixes = ["Don't worry —","Hey, I got you!","It's okay,","Take a breath —","I understand —","You're not alone —","Relax,","That's normal —","I hear you —","Nice one —","Sure —","Alright —","Good point —","Sweet —","Super —"];
-const engMiddles = [
-  "try breaking your study into focused sessions of 25 minutes.",
-  "take a 5-minute walk, it helps a lot.",
-  "try active recall: read, close the book, and recall.",
-  "talk to one friend or teacher and tell them how you feel.",
-  "start with the easiest task and build momentum.",
-  "write down three small wins from today.",
-  "set a simple plan for the next hour and follow it.",
-  "do a short breathing exercise right now.",
-  "drink water and rest your eyes for a bit.",
-  "practice past papers under timed conditions."
-];
-const engSuffixes = ["You got this! 💪","I believe in you.","One step at a time.","Tell me how it goes!","I’m right here with you.","We’ll try again together.","Keep going — small steps win.","I’m proud of your effort.","Stay strong, friend.","Text me anytime."];
+  // ── STRESS ──
+  stress: {
+    triggers: ['stress','stressed','stressful','tension','tense','pressure','overwhelm','too much','burden','heavy','suffocating','can\'t handle','cant handle','going crazy','losing it'],
+    replies: [
+      "I hear you — exam stress is SO real and it's completely valid to feel this way. 💙 First, take one deep breath with me: in for 4 counts, hold for 4, out for 4. You good? Now let's talk — what's stressing you the most right now?",
+      "Stress during exams is one of the most common things students feel, and you're definitely not alone. 🌸 Here are 3 quick tips:\n1. Break big tasks into tiny 15-minute chunks\n2. Write down your worries — it clears mental clutter\n3. Do a 5-minute walk — movement resets your brain!\nWhich one do you want to try first?",
+      "I totally get it. The pressure of exams can feel crushing sometimes. 😔 But here's the truth: YOU have survived every difficult day so far — 100% success rate! This one won't be different. What subject or situation is stressing you most?",
+      "Stress is your brain's signal that you care about something — which is actually a good thing! But too much stress blocks thinking. Let's try the 'brain dump' technique: write everything stressing you on paper (or tell me here), and I'll help you tackle it one by one. 📝",
+      "When stress hits hard, our body tightens. Try this: Tense every muscle in your body for 5 seconds, then RELEASE. Repeat 3 times. This is called Progressive Muscle Relaxation and it actually works! 💪 Then let's figure out what's causing the stress.",
+      "You know what? It's okay to feel stressed. What's NOT okay is suffering alone. 🤗 Let's break it down — is your stress about: (a) too much to study, (b) not enough time, (c) fear of failing, or (d) something else? Tell me and we'll make a plan!",
+      "Stress can actually be useful in small doses — it sharpens focus! But when it's too much, here's a 2-minute rescue:\n• Close your eyes\n• Imagine your favorite peaceful place\n• Breathe slowly for 2 minutes\nThen come back to me and tell me how you feel! 🌿",
+      "Exam stress is real and it's HARD. But research shows that even 10 minutes of mindful breathing before studying can improve concentration by 30%! 🧠 Want me to guide you through a quick breathing exercise?",
+    ]
+  },
 
-const npPrefixes = ["डर नलिनुस —","साथी,","ठीक छ —","एक सास लिनुस —","म बुझ्छु —","तिमी एक्लै होइन —","आराम गनुस —","सामान्य कुरा हो —","म सुनिरहेको छु —","सुरु गर —"];
-const npMiddles = [
-  "२५ मिनेट पढेर ५ मिनेट विश्राम गर।",
-  "थोरै हिँड्न जाउ, धेरै मद्दत गर्छ।",
-  "एक्टिभ रिकॉल अभ्यास गर: पढ, सम्झ, लेख।",
-  "एक जना साथी वा अध्यापकसँग कुरा गर।",
-  "साना कामबाट सुरु गर, मनोबल बढ्छ।",
-  "आजका ३ वटा साना सफलताहरू लेख।",
-  "अहिले सानो ब्रेथिङ एक्सरसाइज गर।",
-  "पानी पिउ र आँखालाई विश्राम देऊ।",
-  "अघिल्ला पेपरहरू समयको साथ अभ्यास गर।",
-  "धेरै चिन्ता भए साना कदम लिऊँ।"
-];
-const npSuffixes = ["तिमीले गर्ज्यौ! 💪","म तिमीमाथि विश्वास गर्छु।","एक कदम एकचोटि।","कसरी भयो भनी बताउ!","म सधैं छुँ।","फेरी संगै गरौँला।","सानो कदमले ठूलो परिणाम ल्याउँछ।","तिम्रो मेहनतमा गर्व छ।","दृढ रहनु साथी।","जब चाहे लेख।"];
+  // ── ANXIETY ──
+  anxiety: {
+    triggers: ['anxiety','anxious','nervous','worried','worry','panic','panicking','heart racing','cant breathe','can\'t breathe','scared','fear','frightened','dread','uneasy','restless'],
+    replies: [
+      "Anxiety before exams is incredibly common — studies show 80% of students experience it! 💙 You are absolutely not broken. Right now, try the 4-7-8 breathing: breathe in for 4 counts, hold for 7, breathe out for 8. This activates your parasympathetic nervous system and calms you down!",
+      "When anxiety spikes, your brain's alarm system (amygdala) is overreacting. Here's how to calm it:\n1. Name 5 things you can see right now\n2. Touch something cold or textured\n3. Say aloud: 'I am safe. This is temporary.'\nThis grounds you back in the present! 🌿",
+      "Anxiety feels awful, I know. 😔 But here's something important: anxiety before exams often means you CARE — you want to do well. That caring will push you to prepare! Let's channel it. What is your biggest anxiety trigger right now?",
+      "For exam anxiety, try this powerful technique: Write down the WORST case scenario. Then ask yourself: 'How likely is this really?' and 'Could I survive even that?' Usually, things aren't as catastrophic as our anxious mind thinks! 📝",
+      "Quick anxiety hack: Put both feet flat on the floor. Feel the ground supporting you. You are safe. 🌱 Anxiety makes us feel like things are spinning out of control — but right now, in this moment, you are okay. Breathe with me?",
+      "I hear your anxiety and I want you to know it's completely valid. 💙 Anxiety is just excitement without a proper direction. Let's redirect that energy into focused preparation. What's the exam you're most anxious about? Let's make a mini-plan!",
+      "When anxiety is high, journaling for just 5 minutes can reduce cortisol (stress hormone) by 40%! ✍️ Write down: 'I feel anxious because...' and then 'One small thing I can do right now is...' This gives your brain a sense of control!",
+    ]
+  },
 
-/* helper to combine and create many unique replies */
-function generateHugePool(){
-  const pool = new Set();
-  // English combinations
-  for(const p of engPrefixes){
-    for(const m of engMiddles){
-      for(const s of engSuffixes){
-        pool.add(`${p} ${m} ${s}`);
-      }
-    }
-  }
-  // Nepali combinations
-  for(const p of npPrefixes){
-    for(const m of npMiddles){
-      for(const s of npSuffixes){
-        pool.add(`${p} ${m} ${s}`);
-      }
-    }
-  }
-  // variations & small replies
-  const smalls = [
-    "I'm here whenever you want to talk.",
-    "Try focusing for 25 minutes, then reward yourself.",
-    "A short nap can sometimes reset your focus.",
-    "Break tasks into tiny steps and start.",
-    "Breathing for one minute can calm your mind.",
-    "Write down what worries you and tackle one item.",
-    "Start small and keep moving forward.",
-    "Plan one topic for 30 minutes and stick to it.",
-    "Talk to one trusted friend, it helps.",
-    "You are doing better than you think."
-  ];
-  smalls.forEach(s => pool.add(s));
-  // add more permutations with emoji and short prefixes
-  const emojis = ["🙂","💪","🔥","🌟","✨","😊","🙌"];
-  const shortStarts = ["Quick tip:","Pro tip:","Friendly tip:","Try this:"];
-  for(let i=0;i<400;i++){
-    const p = shortStarts[i%shortStarts.length];
-    const m = engMiddles[i%engMiddles.length];
-    const e = emojis[i%emojis.length];
-    pool.add(`${p} ${m} ${e}`);
-    pool.add(`${p} ${npMiddles[i%npMiddles.length]} ${npSuffixes[i%npSuffixes.length]}`);
-  }
-  // Add many motivating lines programmatically
-  const baseMotiv = [
-    "Small progress every day adds up.",
-    "Mistakes are feedback — learn and move on.",
-    "Focus on process, not just results.",
-    "Consistent tiny actions compound into big wins.",
-    "Plan, practice, review — repeat."
-  ];
-  for(let r=0;r<800;r++){
-    const pick = baseMotiv[r % baseMotiv.length];
-    pool.add(`${pick} ${["Keep going","You got this","Try again"][r%3]}`);
-    pool.add(`${pick} — ${["Start with 5 minutes","Write one sentence","Do one problem"][r%3]}`);
-  }
-  // ensure pool size >= 2000
-  const finalArr = Array.from(pool);
-  while(finalArr.length < 2200){
-    finalArr.push("Keep trying — one step at a time. Tell me what's next.");
-  }
-  return finalArr;
-}
+  // ── SLEEP PROBLEMS ──
+  sleep: {
+    triggers: ['sleep','sleeping','insomnia','can\'t sleep','cant sleep','not sleeping','awake','awake all night','tired','exhausted','no energy','fatigue','sleepy','drowsy','rest','staying up'],
+    replies: [
+      "Oh no, not sleeping well is tough — especially during exams! 😴 Here are evidence-based sleep tips:\n1. No screens 30 min before bed\n2. Keep your room cool and dark\n3. Try 4-7-8 breathing in bed\n4. Write tomorrow's to-do list before sleeping (it calms 'brain chatter')\nWhich one will you try tonight?",
+      "Sleep deprivation actually hurts your exam performance more than staying up late to study! 😮 Your brain consolidates memories WHILE YOU SLEEP. So getting 7-8 hours is literally studying! Please prioritize your sleep tonight.",
+      "Can't sleep? Try this: Get out of bed (staying in bed while awake creates anxiety). Sit somewhere calm. Read something boring or listen to soft music. Only return to bed when you feel genuinely sleepy. This is called Sleep Restriction Therapy! 🌙",
+      "If racing thoughts are keeping you up, try the 'parking lot' technique: imagine all your worries driving into a parking lot and you locking the gate. You'll deal with them tomorrow. Right now, it's sleep time! 🅿️💤",
+      "Warm milk, chamomile tea, or even just warm water before bed can trigger sleepiness — it's a real physiological response! 🍵 Also try: writing 3 things you're grateful for — it shifts your brain from stress mode to rest mode.",
+      "Exam seasons mess up sleep cycles for almost everyone. You're not alone in this! 🤗 A power nap of 20 minutes in the afternoon can restore alertness significantly. And remember: rest is part of exam prep, not the enemy of it!",
+      "Not sleeping enough? Your memory recall in exams will suffer. 🧠 Science fact: sleep moves information from short-term to long-term memory. The best thing you can do for tomorrow's exam is sleep well tonight. Trust the process!",
+    ]
+  },
 
-const LARGE_REPLY_POOL = generateHugePool(); // >=2000 replies
+  // ── FOCUS / CONCENTRATION ──
+  focus: {
+    triggers: ['focus','concentrate','concentration','distracted','distraction','can\'t focus','cant focus','mind wandering','not studying','procrastinate','procrastinating','procrastination','motivation to study','start studying'],
+    replies: [
+      "Focus struggles are SO common — you're not lazy, your brain just needs the right conditions! 🎯 Try the Pomodoro Technique:\n• Study for 25 minutes\n• Take a 5-minute break\n• Repeat 4 times, then take a longer break\nThis uses your brain's natural attention cycles!",
+      "Can't focus? It might be your environment! 📚 Try:\n1. Clear your desk of everything except what you need\n2. Put your phone in another room (not just face down!)\n3. Use white noise or lo-fi music\n4. Tell someone you'll study for 30 minutes\nAccountability works wonders!",
+      "The hardest part of studying is STARTING. Try the '2-minute rule': just commit to studying for 2 minutes. Often, once you start, you'll keep going! The brain hates starting but loves momentum. ⚡",
+      "Distraction is your brain craving stimulation. Feed it differently!\n• Study with colorful mind maps instead of plain notes\n• Teach the concept out loud (to a stuffed animal if needed! 🧸)\n• Quiz yourself instead of just reading\nActive learning keeps the brain engaged!",
+      "Struggling to focus might mean you need a break, not more willpower! 🌱 Take a 10-minute walk, drink water, have a small snack. Then come back refreshed. Pushing through exhaustion creates diminishing returns.",
+      "Here's a focus hack: write 'I will study [topic] for [time]' on paper and sign it. Making a written commitment to yourself activates your sense of integrity and increases follow-through by 42%! 📝✅",
+      "Phone distractions? Use an app like Forest 🌳 that grows a virtual tree while you don't use your phone. Killing the tree feels bad — psychology uses your guilt productively! Or simply put your phone in a drawer. Out of sight = out of mind.",
+    ]
+  },
 
-/* ---------- 'How-to' follow-ups (detailed multi-step replies) ---------- */
-const howToMap = {
-  'exam': [
-    "Step 1: List all topics you must cover for the exam.",
-    "Step 2: Break topics into 25–50 minute study blocks (Pomodoro).",
-    "Step 3: Prioritize topics you struggle with and schedule them early.",
-    "Step 4: Do timed past papers every 3–4 study sessions.",
-    "Step 5: Review mistakes and make short notes for quick revision.",
-    "Step 6: Night before: light review only; avoid new topics."
-  ],
-  'stress': [
-    "Step 1: Identify the main source of pressure (task, people, time).",
-    "Step 2: Write down the 3 smallest actions you can take now.",
-    "Step 3: Do a 5-minute breathing exercise (inhale 4s, hold 4s, exhale 4s).",
-    "Step 4: Talk to one trusted friend or family member.",
-    "Step 5: If stress persists, speak to a counselor or teacher."
-  ],
-  'sleep': [
-    "Step 1: Avoid screens for 30 minutes before bed.",
-    "Step 2: Keep bedroom cool and quiet; dim lights 1 hour prior.",
-    "Step 3: Do a short relaxation or breathing exercise.",
-    "Step 4: Keep a consistent sleep schedule, even on weekends.",
-    "Step 5: If insomnia continues, consider professional advice."
-  ],
-  'confidence': [
-    "Step 1: Write 3 things you did well this week.",
-    "Step 2: Practice one small task daily and track progress.",
-    "Step 3: Set micro-goals and celebrate small wins.",
-    "Step 4: Review progress every Sunday and plan next week."
-  ],
-  'college': [
-    "Step 1: Make a list of schools and their application requirements.",
-    "Step 2: Collect evidence of impact (screenshots, link to site, user count).",
-    "Step 3: Draft concise activity descriptions for each application.",
-    "Step 4: Ask a teacher/counselor to review your essays & descriptions."
-  ],
-  'fallback': [
-    "Step 1: Try to rephrase your question in one sentence.",
-    "Step 2: Give one example of what you mean (e.g., 'I can't sleep' details).",
-    "Step 3: I'll respond with step-by-step help after that."
+  // ── MOTIVATION ──
+  motivation: {
+    triggers: ['motivation','motivate','motivating','inspired','inspiration','give up','giving up','hopeless','pointless','why bother','whats the point','no hope','lost','demotivated','unmotivated','can\'t do this','cant do this'],
+    replies: [
+      "Hey, I see you're in a tough spot right now. That's okay. 💙 But listen — the fact that you're HERE, looking for motivation, means a part of you WANTS to keep going. That part is right. You've overcome hard things before. This is just another hard thing.",
+      "You know what? Thomas Edison failed 10,000 times before inventing the lightbulb. When asked about it, he said: 'I haven't failed. I've found 10,000 ways that don't work.' Every struggle in your studies is teaching you something. 💡",
+      "When motivation is low, don't rely on feelings — rely on DISCIPLINE. Feelings are temporary. Your future self needs you to study today even when you don't feel like it. Future you will thank present you! 🙏",
+      "Here's something powerful: Write down WHY you started. Why are you pursuing education? What do you want to become? Put that paper where you can see it every day. Your 'WHY' is your fuel when motivation runs dry! 🔥",
+      "Motivation comes and goes like waves. Don't wait for it — ride it when it's there, and build habits that carry you when it's not. Small, consistent actions build extraordinary results. 📈 What tiny thing can you do RIGHT NOW?",
+      "\"Believe you can and you're halfway there.\" – Theodore Roosevelt 💬 I genuinely believe in you. Not because I have to — but because every person who reaches out for help is showing tremendous courage and intelligence. You've got more in you than you know.",
+      "Some days are just hard. And that's okay. 🌧️ Tomorrow can be different. But today? Just do ONE small thing. Read one page. Solve one problem. Take one step. One step forward is infinitely better than zero steps. You in?",
+      "Feeling demotivated? Try the 'future self' visualization: Close your eyes and imagine yourself 5 years from now, successful and proud, looking back at this moment. What would that person tell you to do today? Listen to them! 🌟",
+      "The strongest people aren't those who never struggle — they're the ones who keep showing up despite it. 💪 You showing up today, even feeling unmotivated, makes you strong. I'm proud of you for being here.",
+    ]
+  },
+
+  // ── FEAR OF FAILURE ──
+  failure: {
+    triggers: ['fail','failing','failure','scared of failing','scared to fail','what if i fail','failed','flunk','flunked','bad result','poor result','not pass','won\'t pass','won\'t make it'],
+    replies: [
+      "Fear of failure is one of the most universal human experiences — even the most successful people feel it. 💙 But here's the thing: failure is not the opposite of success, it's a PART of it. Every expert was once a beginner who failed a lot.",
+      "What if you fail? Let's actually think about it calmly. 🤔 If you fail an exam:\n• Can you retake it? Usually yes.\n• Will life end? Absolutely not.\n• Will you learn from it? Definitely.\nFailure is temporary. Quitting is what makes it permanent.",
+      "J.K. Rowling was rejected by 12 publishers before Harry Potter was accepted. 📚 Albert Einstein failed his university entrance exam. Abraham Lincoln failed in business and politics multiple times before becoming president. Failure is often just redirection.",
+      "The fear of failure can be more paralyzing than actual failure. When you're scared of failing, you sometimes don't try at all — and then you definitely 'fail' at reaching your potential. The brave thing is to try even knowing you might not succeed! 💪",
+      "Here's a reframe: In Nepal's culture especially, failure is stigmatized. But consider — every exam you take is a CHANCE to learn what you know and what you need to work on. Results are feedback, not verdicts about who you are as a person.",
+      "You are NOT your grades. 🌸 Your worth as a human being is not determined by exam results. What IS determined is your understanding of the subject — and that understanding can always grow. Be kind to yourself through this process.",
+      "Talk to yourself like you'd talk to a best friend. 💙 If your friend said 'I'm scared of failing,' you wouldn't say 'Yeah you probably will!' You'd say 'I believe in you, and even if it's hard, we'll figure it out together.' Be that friend to yourself.",
+    ]
+  },
+
+  // ── TIME MANAGEMENT ──
+  timeManagement: {
+    triggers: ['time management','manage time','no time','not enough time','running out of time','time','schedule','plan','planning','timetable','study plan','study schedule','syllabus','how to study'],
+    replies: [
+      "Time management during exams is crucial! ⏰ Here's a simple framework:\n1. List all subjects and topics\n2. Estimate time needed for each\n3. Work backwards from exam date\n4. Assign 2-3 subjects per day\n5. Include buffer days for revision\nWant me to help you make this plan?",
+      "The Eisenhower Matrix is a great study tool! 📊 Divide your tasks into:\n• URGENT & IMPORTANT → Do now\n• IMPORTANT but not urgent → Schedule it\n• URGENT but not important → Minimize\n• NEITHER → Eliminate\nExam chapters usually go in the first two categories!",
+      "Here's a time truth bomb: 💣 Most students spend 60% of study time on things they already know and only 40% on things they don't! Flip this. Do a quick self-quiz on each topic. If you score above 70%, move on. Focus time = focus on weak areas!",
+      "Try the 'Eat the Frog' method! 🐸 Do the hardest, most important task FIRST every day. Once it's done, everything else feels easy by comparison. Your willpower is highest in the morning — use it on the hard stuff!",
+      "Creating a study timetable that ACTUALLY works:\n1. Be realistic (not 10 hours of studying if you've never done 2)\n2. Start with 2 hours and build up\n3. Include breaks (mandatory!)\n4. Schedule the same slot every day — consistency builds habit\n5. Review and adjust weekly 📅",
+      "If you feel like there's not enough time — prioritize! 🎯 Focus on:\n• High-weightage chapters\n• Topics you know will come\n• Concepts teacher emphasized\nYou don't need to know everything perfectly. You need to know the important things well!",
+    ]
+  },
+
+  // ── BREATHING / RELAXATION ──
+  breathing: {
+    triggers: ['breathe','breathing','breathe','calm down','calm me','relax','relaxation','meditation','meditate','yoga','mindfulness','panic attack','feeling overwhelmed','overwhelmed'],
+    replies: [
+      "Let's do a breathing exercise together right now! 🌿\n\n🌬️ BOX BREATHING:\n• Breathe IN for 4 counts\n• HOLD for 4 counts\n• Breathe OUT for 4 counts\n• HOLD for 4 counts\n\nRepeat 4 times. This is used by Navy SEALs to stay calm under pressure! How do you feel after?",
+      "Try this RIGHT NOW: 🧘\n1. Sit comfortably, close your eyes\n2. Feel your feet on the floor\n3. Take 3 slow, deep breaths\n4. Notice 3 sounds around you\n5. Open your eyes slowly\n\nThis is a grounding technique. The world didn't end while you were breathing. You're okay. 💙",
+      "For a quick calm-down, try the 4-7-8 technique! 😌\n• Breathe in through nose for 4 seconds\n• Hold for 7 seconds\n• Breathe out through mouth for 8 seconds\n\nThis activates your vagus nerve and puts your nervous system into 'rest' mode. Do it 3 times!",
+      "Progressive Muscle Relaxation in 5 minutes: 💆\n1. Tense your toes for 5 sec, release\n2. Tense your calves, release\n3. Tense your thighs, release\n4. Continue upward through body\n5. Finish with face muscles\n\nYou'll feel physical tension melt away!",
+      "5-4-3-2-1 Grounding: 🌱\n• 5 things you CAN SEE\n• 4 things you CAN TOUCH\n• 3 things you CAN HEAR\n• 2 things you CAN SMELL\n• 1 thing you CAN TASTE\n\nThis brings you back to the present moment and stops racing thoughts instantly!",
+      "Even just 5 minutes of gentle yoga can reduce exam stress dramatically! 🧘 Try child's pose: Sit on your heels, fold forward, arms stretched out, forehead on the ground. Breathe deeply. It's calming for the nervous system and requires no experience!",
+    ]
+  },
+
+  // ── STUDY TIPS ──
+  studyTips: {
+    triggers: ['study tip','study tips','how to study','study technique','study method','study trick','study better','study effectively','effective study','best way to study','study more','learn better','learn faster','how to learn','memorize','memory'],
+    replies: [
+      "Top evidence-based study tips! 📚✨\n1. **Active Recall** – Test yourself instead of re-reading\n2. **Spaced Repetition** – Review material at increasing intervals\n3. **Interleaving** – Mix subjects/topics in one session\n4. **Feynman Technique** – Explain concepts in simple words\n5. **Mind Mapping** – Visual connections between ideas\n\nWhich one do you want to try first?",
+      "The MOST effective study method is Active Recall! 🧠 Instead of highlighting or re-reading:\n• Cover your notes\n• Try to recall everything from memory\n• Check what you missed\n• Repeat\n\nThis forces your brain to RETRIEVE information, making it stick much better!",
+      "Spaced Repetition changes everything! 📅\n• Review material on Day 1\n• Review again on Day 3\n• Then Day 7\n• Then Day 14\n\nYour brain retains information far better when it's reviewed at increasing intervals. Apps like Anki automate this for you!",
+      "The Feynman Technique (used by Nobel Prize winner Richard Feynman): 💡\n1. Pick a concept\n2. Explain it as if teaching a 10-year-old\n3. Find gaps in your explanation\n4. Go back to material and fill gaps\n5. Simplify again\n\nIf you can't explain it simply, you don't understand it yet!",
+      "For memorization: 🎭\n• Create stories linking concepts\n• Use acronyms (ROYGBIV for rainbow colors)\n• Draw diagrams and mind maps\n• Make silly rhymes\n• Use the 'method of loci' — place items in rooms of an imaginary house\n\nMake it fun and weird — your brain remembers unusual things!",
+      "Study smarter, not harder! 💪 Research shows:\n• Studying in 25-50 minute blocks beats marathon sessions\n• Morning study (after sleep) is best for new material\n• Evening review reinforces learning\n• Teaching others improves YOUR understanding by 90%\n• Exercise before studying boosts brain function!",
+      "Note-taking methods that actually work: 📝\n• **Cornell Method**: Divide page into notes, cues, summary\n• **Mind Maps**: Central concept with branching details\n• **Outline Method**: Hierarchical structure\n• **Charting**: Great for comparative info\n\nAvoid passive copying — paraphrase in your own words!",
+    ]
+  },
+
+  // ── FAMILY / PARENT PRESSURE ──
+  parentPressure: {
+    triggers: ['parent','parents','mom','dad','family','pressure from','family pressure','parents expect','expectations','disappoint','disappointing','they want me to','force me','forcing me','they don\'t understand'],
+    replies: [
+      "Family pressure during exams is so difficult to navigate, especially in our culture. 💙 First, know this: your parents' pressure usually comes from love and genuine concern for your future — even when it doesn't feel that way. They want the best for you.",
+      "When parents are adding pressure, try this conversation: 'Ama/Baba, I love you and I'm trying my hardest. What I really need from you right now is encouragement, not more pressure. Can you help me that way?' 💬 Expressing your needs calmly can shift the dynamic.",
+      "Feeling caught between your own abilities and family expectations is exhausting. 😔 Remember: you can only control YOUR effort, not the results. If you can honestly say you tried your best — that's something to be proud of, regardless of marks.",
+      "In Nepali culture especially, academic pressure can feel immense. 🏔️ But consider: your parents grew up in a different era. Their path to success was different. Your path might look different — and that's okay. Communicate, be honest about how you feel.",
+      "If family pressure is affecting your mental health significantly, please consider talking to a trusted adult — a teacher, counselor, or relative who can mediate. You shouldn't have to carry this alone. 💙",
+    ]
+  },
+
+  // ── LONELINESS / ISOLATION ──
+  lonely: {
+    triggers: ['lonely','loneliness','alone','isolated','no one understands','no friends','no one to talk','feel alone','no support','nobody cares','nobody understands'],
+    replies: [
+      "Feeling lonely during exams is more common than you think — it's a time when everyone isolates to study, and that can feel very alienating. 💙 But right now, in this moment, you are not alone. I'm here and I'm listening.",
+      "Loneliness during intense study periods is real and painful. 😔 Some ideas to stay connected:\n• Study in a library with others around\n• Join a virtual study group\n• Call a friend for 10 minutes\n• Even brief human connection recharges us!\nWho in your life could you reach out to today?",
+      "You reached out to AI Sathi — that took courage! 🤗 And I'm genuinely here for you. But I also want you to know that human connection is important. Is there ONE person — friend, family member, teacher — you could text or call today? Even just to say hi?",
+      "Feeling like no one understands what you're going through is isolating. 💙 But the truth is, thousands of students right now feel exactly as you do — stressed, alone, overwhelmed. You are part of a huge invisible community of people just trying their best.",
+    ]
+  },
+
+  // ── SADNESS / FEELING LOW ──
+  sad: {
+    triggers: ['sad','sadness','cry','crying','tears','depressed','depression','feeling low','feel bad','feeling bad','heartbroken','upset','miserable','unhappy','down','feeling down','terrible','awful'],
+    replies: [
+      "I'm really sorry you're feeling this way. 💙 Sadness during exams is real and valid. Can you tell me more about what's making you feel sad? I'm here to listen — no judgment, just support.",
+      "It's okay to cry. 😢 Really. Tears are your body's way of releasing emotion — it's healthy! Let it out. After you do, we can talk about what's underneath. You don't have to hold it all together all the time.",
+      "Feeling low can make even simple tasks feel impossible. 😔 Please know that these feelings are temporary — they always pass. One thing that genuinely helps: do one tiny kind act for yourself right now. Drink water. Eat something. Step outside for 2 minutes. Take care of the basics.",
+      "If you're feeling persistently sad beyond just exam stress, please reach out to a school counselor or trusted adult. 💙 There's no shame in getting support — it's actually the smartest thing you can do. How long have you been feeling this way?",
+      "Sadness doesn't make you weak — it makes you human. 🌸 Some of the most sensitive, intelligent, empathetic people are also the ones who feel things most deeply. Your feelings matter. You matter. I'm glad you're here talking to me.",
+      "On hard days, try to do just 3 things: 1) Drink water 2) Eat something 3) Step outside for 5 minutes. These small physical acts signal to your brain that you're taking care of yourself, and they genuinely shift mood. 💙",
+    ]
+  },
+
+  // ── ANGER / FRUSTRATION ──
+  anger: {
+    triggers: ['angry','anger','frustrated','frustration','annoyed','irritated','mad','furious','hate','can\'t stand','pissed','fed up'],
+    replies: [
+      "I hear that you're frustrated — and that frustration is completely valid! 😤 Anger often signals that something important to us isn't working. What specifically is making you angry right now? Let's talk about it.",
+      "When anger hits during exam prep:\n1. Step away for 5 minutes (don't make decisions when furious)\n2. Do 10 jumping jacks — physical movement releases angry energy\n3. Write your frustration on paper and then rip it up 😄\n4. Come back with a clearer head\n\nWhat's got you frustrated?",
+      "Frustration with studying usually means one of three things: the material is too hard, you're tired, or you feel like progress isn't happening. Which one fits? 🤔 Let's fix it together!",
+      "It's okay to feel angry. 💙 What matters is how we handle it. Punching walls = bad 😂. Talking it out = great! What's underneath the anger? Sometimes there's fear, sadness, or exhaustion hiding there.",
+    ]
+  },
+
+  // ── EATING / HEALTH ──
+  health: {
+    triggers: ['eat','eating','food','hungry','not eating','skip meal','diet','health','headache','sick','unwell','ill','body','water','hydrate','exercise'],
+    replies: [
+      "Your brain is 2% of your body weight but uses 20% of your energy! 🧠 Nutrition MATTERS during exams:\n• Eat breakfast — it improves concentration significantly\n• Snack on nuts, fruits, dark chocolate\n• Stay hydrated — even mild dehydration impairs focus\n• Avoid heavy meals before studying\nAre you eating well?",
+      "Not eating properly during exams is really common but really counterproductive! 🍎 Even simple meals matter. Your brain needs glucose to function. If you've been skipping meals, please eat something — even a banana or biscuit counts.",
+      "Exercise and studying go together! 🏃 Just 20 minutes of walking increases BDNF (Brain-Derived Neurotrophic Factor) — literally a brain growth chemical! It improves memory, focus, and mood. A short walk is not wasted study time; it IS study time.",
+      "Headache while studying? 🤕 Common causes:\n• Dehydration (drink water NOW)\n• Sitting in same position too long\n• Eye strain from screens\n• Hunger\n• Stress\n\nDrink a glass of water, stand up and stretch, and rest your eyes. Often a headache is your body saying 'please take care of me!'",
+    ]
+  },
+
+  // ── JOKES / CHEER UP ──
+  jokes: {
+    triggers: ['joke','jokes','funny','laugh','cheer up','make me laugh','fun','humor','entertain','smile','happy','brighten'],
+    replies: [
+      "Here's a student joke for you! 😄\n\nWhy did the math book look so sad?\nBecause it had too many PROBLEMS! 😂\n\nOkay okay, I know... But I hope that gave you even a tiny smile! Sometimes a silly laugh is the best medicine.",
+      "Knock knock! 🚪\nWho's there?\nAtom.\nAtom who?\nAtom my nerves before the exam! 😂\n\nHaha! Chemistry meets exam anxiety. Hope it brought a smile!",
+      "Why don't scientists trust atoms? 🔬\n...Because they make up everything! 😂\n\nLike how your brain sometimes makes up worst-case scenarios before exams. But hey — at least atoms are relatable!",
+      "Student to professor: 'Will this be on the exam?'\nProfessor: 'Yes.'\nStudent: 'But you said it might not be!'\nProfessor: 'I lied. Just like your excuse for missing last class.' 😂\n\nHope that made you chuckle! Now back to studying — but lighter!",
+      "Why did the student eat his homework? 🍴\nBecause the teacher said it was a piece of CAKE! 😄\n\nIf only exams were as easy as eating cake, right? But you've got this — cake or no cake!",
+    ]
+  },
+
+  // ── POSITIVE AFFIRMATIONS ──
+  affirmations: {
+    triggers: ['affirmation','positive','encourage','believe in me','confidence','confident','self doubt','doubt myself','not smart enough','not good enough','stupid','dumb','not capable'],
+    replies: [
+      "Let me remind you of some truths: 🌟\n• You are capable of more than you think\n• Your brain can grow and learn new things\n• Hard work beats natural talent when talent doesn't work hard\n• You've overcome difficulties before — you'll do it again\n• You are enough, exactly as you are\n\nWhich of these do you need to hear most today?",
+      "I believe in you. Not because I'm programmed to say it — but because the fact that you're here, seeking support, shows intelligence and self-awareness. Those qualities will take you further than any single exam result. 💙",
+      "Self-doubt is a liar. 🌸 It tells you things that feel true but aren't. Counter it with evidence: What's a time you surprised yourself? A challenge you overcame? A skill you built? You have more proof of your capability than you realize.",
+      "Affirmations that actually work: Say these OUT LOUD (not just in your head):\n• 'I am doing my best and that is enough'\n• 'I can handle challenges'\n• 'My efforts are creating results'\n• 'I am becoming better every day'\n\nScience shows that speaking aloud activates different brain pathways than just thinking. Try it!",
+      "You are not stupid. You are not incapable. You are a student facing enormous pressure, doing your best with the resources you have. That's not weakness — that's incredible courage. 💙 I see you.",
+    ]
+  },
+
+  // ── REVISION TIPS ──
+  revision: {
+    triggers: ['revision','revise','review','exam prep','preparation','prepare for exam','last minute','night before','before exam','exam tomorrow','exam today'],
+    replies: [
+      "Last minute revision strategy! ⚡\n1. Don't try to learn new things — reinforce what you know\n2. Review summaries and key points only\n3. Do past paper questions\n4. Teach key concepts to yourself out loud\n5. STOP at least 1 hour before sleep\n6. Sleep well — your brain consolidates memory during sleep!\n\nYou've got this!",
+      "Night before exam checklist! 📋\n✅ Pack everything you need\n✅ Review key formulas/dates/concepts briefly\n✅ Eat a good meal\n✅ Prepare clothes and bag\n✅ Set multiple alarms\n✅ Get to bed by 10pm\n✅ No all-nighter — sleep IS revision!\n\nYour brain needs rest to perform!",
+      "Exam morning tips! 🌅\n1. Eat a proper breakfast (glucose = brain fuel)\n2. Arrive early (reduces anxiety)\n3. Don't discuss the exam with anxious friends before (it transfers anxiety!)\n4. Deep breathe for 2 minutes before starting\n5. Read all questions first, then start with what you know\n6. Manage time — don't spend too long on one question!",
+      "Effective revision techniques:\n📌 **Flashcards** – Key terms and definitions\n📌 **Past papers** – Most effective exam prep!\n📌 **Mind maps** – Big picture connections\n📌 **Teaching** – Explain to family/friends\n📌 **Summary sheets** – One page per topic\n\nWhich subject are you revising? I can give specific tips!",
+    ]
+  },
+
+  // ── OVERWHELM ──
+  overwhelm: {
+    triggers: ['overwhelmed','too much','so much to do','can\'t cope','cannot cope','everything at once','where to start','lost','don\'t know what to do','confused','help me','dont know where to start'],
+    replies: [
+      "When everything feels overwhelming, STOP and do this: 🛑\n1. Take 3 deep breaths\n2. Write down EVERYTHING on your mind on paper\n3. Circle just ONE thing you can do in the next 30 minutes\n4. Do ONLY that one thing\n5. Cross it off — feel the satisfaction!\n\nOne thing at a time. Not everything at once.",
+      "Overwhelm is just your brain trying to hold too many things at once. The solution? Externalize! 📝 Write every single task, worry, and thought on paper. Once it's on paper, your brain can STOP trying to hold it all. You'll feel immediate relief.",
+      "\"I can't do everything\" is true. But \"I can't do anything\" is NOT. 💙 When overwhelmed, your job is to find just the ONE smallest next step and take it. What's the tiniest thing you could do right now that would move you forward even a little?",
+      "Overwhelm often comes from focusing on the mountain instead of the next step. 🏔️ You don't climb Everest by looking at the summit — you look at the next foothold. What's your next foothold? Just one. Small. Manageable thing?",
+      "Let's get practical! 💪 Tell me: what are the 3 most urgent things you need to do right now? List them and we'll figure out together which one to tackle first. Breaking it down makes it manageable!",
+    ]
+  },
+
+  // ── EXAM DAY ──
+  examDay: {
+    triggers: ['exam today','exam now','exam soon','going for exam','exam in','hours to exam','before exam','about to take exam','exam starting','exam hall','nervous before exam'],
+    replies: [
+      "Good luck on your exam today! 🍀 Here are my last-minute power tips:\n• Breathe deeply as you walk in\n• Read ALL questions before starting\n• Answer what you know first\n• Don't panic if you blank — skip and come back\n• Check your time\n• Review answers if time allows\n\nYOU'VE GOT THIS! 💪",
+      "About to go for an exam? 🎯 Repeat after me: 'I have prepared. I am ready. I will do my best. My best is enough.'\n\nNow take three slow breaths. Walk in with your head held high. You are more prepared than you feel right now. Go show that paper what you know!",
+      "Pre-exam anxiety is normal and actually helpful in small doses! 🧠 It means you care. Channel that energy. You've done the work. Now it's time to trust it. Good luck — come back and tell me how it went! 💙",
+    ]
+  },
+
+  // ── SUCCESS / AFTER EXAM ──
+  afterExam: {
+    triggers: ['exam done','finished exam','exam over','just came from exam','how did i do','result','marks','score','passed','got result','exam results'],
+    replies: [
+      "Your exam is done! 🎉 That's HUGE. Take a moment to acknowledge that you went through it — regardless of how it felt. How are you feeling? What happened?",
+      "The exam is over — the hardest part is done! 🌟 Now: rest, eat, drink water, and be kind to yourself. Whatever happened in there, you gave your best. Results are data, not verdicts about your worth.",
+      "Waiting for results is its own kind of anxiety! 😬 Remember: you cannot change what you wrote. But you CAN control what you do now — rest, recover, and prepare to learn from this exam whatever the result. How are you feeling?",
+      "Got results you're not happy with? 💙 First: breathe. Then: remember this is one exam, one moment in a very long journey. Talk to your teacher about where you went wrong. Learn from it. Adjust. Try again. This is NOT the end of your story.",
+      "Got great results? 🎊 CELEBRATE! You worked hard for this and you deserve to feel proud. Let yourself enjoy this moment — you've earned it! What's next for you?",
+    ]
+  },
+
+  // ── WHAT CAN YOU DO ──
+  capabilities: {
+    triggers: ['what can you do','how can you help','what are you','who are you','tell me about you','what is ai sathi','what do you do','features','help me with'],
+    replies: [
+      "I'm AI Sathi — your mental wellness companion during exams! 🧠💙\n\nHere's what I can help with:\n📚 Study tips and techniques\n😰 Managing stress and anxiety\n⏰ Time management strategies\n💪 Motivation and encouragement\n😴 Sleep and health advice\n🌿 Breathing and relaxation exercises\n💬 Just listening when you need to vent\n\nMade with love by Sunil Pant — here for you always!",
+      "AI Sathi is here to:\n1. Listen without judgment\n2. Provide evidence-based coping strategies\n3. Give practical study advice\n4. Offer motivation when you're low\n5. Guide breathing and relaxation\n6. Help you plan and manage time\n7. Cheer you on through it all!\n\nWhat would you like help with today? 💙",
+    ]
+  },
+
+  // ── GOODBYE ──
+  goodbye: {
+    triggers: ['bye','goodbye','see you','see ya','later','gotta go','leaving','talk later','cya','good night','goodnight','going to sleep','going now'],
+    replies: [
+      "Take care of yourself! 💙 Remember — AI Sathi is always here whenever you need to talk, vent, or get some tips. You've got this! Go get some rest and come back refreshed. Bye for now! 🌟",
+      "Goodbye for now! 🌸 Remember: you are capable, you are worthy, and you are not alone in this. Come back anytime — day or night. Good luck with everything! 💙",
+      "See you later! 😊 I'll be right here whenever you need me. Take care of your mind and body — they're your most important exam tools! Bye! 🌟",
+      "Go rest, go eat, go take care of yourself! 🌿 You deserve it. AI Sathi will be waiting here whenever you need a friend. Take care! 💙",
+    ]
+  },
+
+  // ── PROBLEM / GENERIC HELP ──
+  problem: {
+    triggers: ['i have a problem','problem','issue','trouble','difficulty','struggling','need help','help','worried about','concerned about'],
+    replies: [
+      "I'm so sorry you're dealing with a problem right now. 💙 I'm all ears — please tell me more. What's going on? The more you share, the better I can support you.",
+      "I'm here and I want to help! 🤗 Tell me about what's troubling you — don't hold back. Sometimes just talking about a problem makes it feel smaller and more manageable.",
+      "Every problem has a solution, even if we can't see it yet. 💙 Let's work through this together. What's the main challenge you're facing right now?",
+    ]
+  },
+
+  // ── DEFAULT / FALLBACK ──
+  default: [
+    "I'm really glad you're talking to me! 💙 I want to make sure I understand — can you tell me a little more about what you're going through?",
+    "That's interesting — tell me more! I'm here to listen and help. What's on your mind? 🌸",
+    "I hear you. 💙 I want to understand better so I can give you the best support. Could you share more details about what you're experiencing?",
+    "I'm here for you! 🤗 Let's talk through whatever is on your mind. What would you like to focus on today?",
+    "Hmm, I want to make sure I help you properly. Can you share a bit more? I'm listening carefully! 💙",
+    "You reached out — that's already brave. 🌟 Now tell me more about what's going on and we'll figure it out together!",
+    "Every feeling you have is valid. I'm here to help — just share a bit more about your situation! 💙",
+    "I care about what you're going through. Tell me more so I can support you better! 🌸",
+    "That sounds important. Please share more — I'm giving you my full attention! 💙",
+    "I want to help you the best I can. Can you be a little more specific about what you're feeling or facing? 🌟",
   ]
 };
 
-/* ---------- Intent detection ---------- */
-function detectIntent(text){
-  const t = text.toLowerCase();
-  const crisis = ["suicide","kill myself","i want to die","end my life","self harm","suicidal","marna","ma marna","aafai marna"];
-  for(const k of crisis) if(t.includes(k)) return 'crisis';
-  if(/\b(exam|test|finals|board)\b/.test(t)) return 'exam';
-  if(/\b(stress|stressed|pressure|overwhelmed|dabav|dabab)\b/.test(t)) return 'stress';
-  if(/\b(sleep|insomnia|nindra|sutana|nindra audaina)\b/.test(t)) return 'sleep';
-  if(/\b(confidence|confident|doubt|bharosa|confidence kam)\b/.test(t)) return 'confidence';
-  if(/\b(lonely|alone|eklo|ekla)\b/.test(t)) return 'lonely';
-  if(/\b(motivate|motivation|inspire)\b/.test(t)) return 'motivate';
-  if(/\b(joke|jokes)\b/.test(t)) return 'joke';
-  if(/\b(fact|facts)\b/.test(t)) return 'fact';
-  if(/\b(time|date|today|what time)\b/.test(t)) return 'time';
-  if(/\b(solve|calculate|what is|[0-9]+\s*[\+\-\*\/])/.test(t)) return 'math';
-  if(/\b(college|apply|application|admission|sat)\b/.test(t)) return 'college';
-  if(/\b(hi|hello|namaste|hey)\b/.test(t)) return 'greet';
-  return 'fallback';
+// ── CHIPS SUGGESTIONS per context ──
+const CHIPS = {
+  stress: ['😴 Sleep tips', '🎯 Focus better', '⏰ Time tips', '🌿 Breathe'],
+  anxiety: ['🌿 Calm me', '📚 Study tips', '💪 Motivate me', '😄 Cheer up'],
+  motivation: ['📚 Study tips', '😰 Stress help', '🌿 Relax', '💬 Talk more'],
+  default: ['😰 I\'m stressed', '📚 Study tips', '🌿 Calm me', '💪 Motivate me', '😄 Jokes'],
+};
+
+// ── MATCH RESPONSE ──
+function getResponse(userText) {
+  const text = userText.toLowerCase().trim();
+
+  const categories = [
+    'greetings','howAreYou','thanks','stress','anxiety','sleep','focus',
+    'motivation','failure','timeManagement','breathing','studyTips',
+    'parentPressure','lonely','sad','anger','health','jokes','affirmations',
+    'revision','overwhelm','examDay','afterExam','capabilities','goodbye','problem'
+  ];
+
+  for (const cat of categories) {
+    const data = RESPONSES[cat];
+    if (data && data.triggers) {
+      if (data.triggers.some(t => text.includes(t))) {
+        const replies = data.replies;
+        return {
+          text: replies[Math.floor(Math.random() * replies.length)],
+          category: cat
+        };
+      }
+    }
+  }
+
+  // fallback
+  const def = RESPONSES.default;
+  return { text: def[Math.floor(Math.random() * def.length)], category: 'default' };
 }
 
-/* ---------- Safe math eval ---------- */
-function safeEval(expr){
-  if(!/^[0-9\.\s\+\-\*\/\(\)]+$/.test(expr)) return {err:'Invalid characters.'};
-  try{ const val = Function('"use strict";return ('+expr+')')(); if(typeof val==='number' && isFinite(val)) return {val}; return {err:'Invalid result.'}; } catch(e){ return {err:'Cannot evaluate.'}; }
+// ── SUGGESTION CHIPS ──
+function updateChips(category) {
+  const chips = document.getElementById('chips');
+  const sets = {
+    stress: ['😴 Can\'t sleep', '🎯 Can\'t focus', '💪 Need motivation', '🌿 Calm breathing'],
+    anxiety: ['🌿 Calm me now', '📚 Study tips', '😊 Cheer up', '⏰ Time management'],
+    motivation: ['📚 Study method', '😰 Stress tips', '🌿 Relax', '🎯 Focus tips'],
+    sad: ['💙 Talk more', '💪 Motivate me', '😄 Make me laugh', '🌿 Calm me'],
+    sleep: ['🎯 Focus tips', '🌿 Breathe', '📚 Study tips', '💪 Motivate me'],
+    default: ['😰 I\'m stressed', '📚 Study tips', '🌿 Calm me', '💪 Motivate me'],
+  };
+  const set = sets[category] || sets.default;
+  chips.innerHTML = set.map(s => `<span class="chip" onclick="sendQuick('${s.replace(/['"]/g,'')}')">${s}</span>`).join('');
 }
 
-/* ---------- Reply selection & follow-up logic ---------- */
-function replyFor(text){
-  const trimmed = text.trim();
-  const tLower = trimmed.toLowerCase();
-  // follow-up "how" detection (user asks "how" or "what should i do" or "after that")
-  const howWords = ['how','what should i do','what now','after that','then what','how do i','how can i','what next'];
-  const isHow = howWords.some(w => tLower.startsWith(w) || tLower.includes(w));
-  // detect intent from full input if not simple "how"
-  const intent = detectIntent(tLower);
-  // if user asked a pure "how" follow-up and we have lastIntent, return detailed steps
-  if(isHow && lastIntent){
-    const steps = howToMap[lastIntent] || howToMap['fallback'];
-    // build friendly multi-step response
-    const header = `Okay — here's a step-by-step for ${lastIntent}:`;
-    const body = steps.map((s,i)=>`${i+1}. ${s}`).join(' ');
-    return {text: `${header} ${body}`};
-  }
-  // Crisis urgent
-  if(intent === 'crisis') return {text: "If you're thinking about harming yourself, contact local emergency services and a trusted adult right now. This is urgent.", urgent:true};
-  // Math
-  if(intent === 'math'){
-    const expr = tLower.replace(/[^0-9\.\+\-\*\/\(\)\s]/g,'').trim();
-    const r = safeEval(expr || tLower);
-    if(r.err) return {text: "I couldn't solve that: " + r.err};
-    return {text: `Answer: ${r.val}`};
-  }
-  // Greeting
-  if(intent === 'greet') { lastIntent = 'greet'; const g = ["Namaste! I'm AI Sathi — how are you feeling?","Hey! I'm here — tell me what's on your mind.","Hello friend! How can I help today?"]; return {text: g[Math.floor(Math.random()*g.length)]}; }
-  // For main intents, set lastIntent and pick friendly reply from large pool filtered by keywords
-  lastIntent = intent;
-  if(intent === 'exam'){
-    // prefer replies mentioning study/pomodoro/papers
-    const picks = LARGE_REPLY_POOL.filter(s => /study|exam|practice|pomodoro|paper|past/i.test(s));
-    return {text: picks[Math.floor(Math.random()*picks.length)] || LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
-  }
-  if(intent === 'stress'){
-    const picks = LARGE_REPLY_POOL.filter(s => /stress|pressure|breathe|breathing|relax|rest|calm|overwhelm/i.test(s));
-    return {text: picks[Math.floor(Math.random()*picks.length)] || LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
-  }
-  if(intent === 'sleep'){
-    const picks = LARGE_REPLY_POOL.filter(s => /sleep|nindra|bed|rest|nap/i.test(s));
-    return {text: picks[Math.floor(Math.random()*picks.length)] || "Try avoiding screens 30 min before bed and do 4-4-4 breathing."};
-  }
-  if(intent === 'confidence'){
-    const picks = LARGE_REPLY_POOL.filter(s => /confidence|win|small success|celebrate|practice/i.test(s));
-    return {text: picks[Math.floor(Math.random()*picks.length)] || "List 3 small wins and repeat."};
-  }
-  if(intent === 'college'){
-    return {text: "For college: show impact (users), code on GitHub, and a short demo video. I can help draft a one-paragraph activity description."};
-  }
-  if(intent === 'joke') return {text: ["Why do programmers prefer dark mode? Because light attracts bugs.","Why did the computer go to the doctor? It had a virus!"][Math.floor(Math.random()*2)]};
-  if(intent === 'fact') return {text: ["Active recall improves memory retention.","Practicing with past papers under timed conditions is very effective."][Math.floor(Math.random()*2)]};
-  if(intent === 'time') return {text: "Current time: " + new Date().toLocaleString()};
-  if(intent === 'lonely' || intent === 'motivate' || intent === 'fallback'){
-    // pick any friendly line from pool
-    return {text: LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
-  }
-  // default fallback
-  return {text: LARGE_REPLY_POOL[Math.floor(Math.random()*LARGE_REPLY_POOL.length)]};
+// ── SEND MESSAGE ──
+function sendMessage() {
+  const text = userInput.value.trim();
+  if (!text || botIsTyping) return;
+
+  addMessage(text, 'user');
+  userInput.value = '';
+  userInput.style.height = 'auto';
+  messageHistory.push({ role: 'user', text });
+
+  showTyping();
+  const delay = 800 + Math.random() * 700;
+  setTimeout(() => {
+    removeTyping();
+    const { text: reply, category } = getResponse(text);
+    addMessage(reply, 'bot');
+    messageHistory.push({ role: 'bot', text: reply });
+    updateChips(category);
+  }, delay);
 }
 
-/* ---------- Send flow ---------- */
-function sendText(text){
-  const t = text && text.trim();
-  if(!t) return;
-  pushMessage(t,'user');
-  const typing = showTyping();
-  setTimeout(()=>{
-    rm(typing);
-    const bot = replyFor(t);
-    pushMessage(bot.text,'bot');
-    if(bot.urgent) setTimeout(()=> alert(bot.text), 200);
-  }, 500 + Math.min(1100, t.length * 8));
+function sendQuick(text) {
+  userInput.value = text;
+  sendMessage();
 }
 
-/* UI events */
-sendBtn.addEventListener('click', ()=>{ sendText(inputEl.value); inputEl.value=''; inputEl.focus(); });
-inputEl.addEventListener('keypress', (e)=>{ if(e.key==='Enter'){ sendText(inputEl.value); inputEl.value=''; } });
+// ── DOM HELPERS ──
+function addMessage(text, sender) {
+  const row = document.createElement('div');
+  row.className = `msg-row ${sender}`;
 
-btnExample.addEventListener('click', ()=>{ const ex = ["exam","pressure","nindra audaina","solve 12/3","how can I study","joke","fact","time","how do I prepare for exams"]; for(const q of ex){ pushMessage(q,'user',false); sendText(q); }});
-btnClear.addEventListener('click', ()=>{ if(confirm('Clear chat on screen?')) messagesEl.innerHTML=''; });
+  const avatar = document.createElement('div');
+  avatar.className = `msg-avatar ${sender}`;
+  avatar.textContent = sender === 'bot' ? '🤖' : '🙂';
 
-/* Save / restore / download / copy */
-saveBtn.addEventListener('click', ()=>{ localStorage.setItem('ai_sathi_chat_large', messagesEl.innerHTML); alert('Chat saved in browser storage.'); });
-restoreBtn.addEventListener('click', ()=>{ const h = localStorage.getItem('ai_sathi_chat_large'); if(h){ messagesEl.innerHTML = h; messagesEl.scrollTop = messagesEl.scrollHeight; alert('Restored chat.'); } else alert('No saved chat found.'); });
-clearLocalBtn.addEventListener('click', ()=>{ if(confirm('Delete saved chat?')){ localStorage.removeItem('ai_sathi_chat_large'); alert('Deleted saved chat.'); }});
-downloadBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); const blob = new Blob([txt],{type:'text/plain'}); const a=document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='ai_sathi_chat.txt'; a.click(); });
-copyBtn.addEventListener('click', ()=>{ const txt = Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText.replace(/\n/g,' ')).join('\n\n'); navigator.clipboard.writeText(txt).then(()=> alert('Chat copied to clipboard.')); });
-btnExport.addEventListener('click', ()=>{ const data={savedAt:new Date().toLocaleString(),content:Array.from(messagesEl.querySelectorAll('.bubble')).map(b=>b.innerText)}; const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ai_sathi_chat.json'; a.click(); });
+  const bubble = document.createElement('div');
+  bubble.className = `bubble ${sender}`;
 
-/* ---------- Mic (SpeechRecognition) ---------- */
-let recognition = null;
-let listening = false;
-function initMic(){
-  if(!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)){ micIndicator.innerText='Mic: not supported'; micBtn.title='Mic not supported'; micBtn.style.opacity=0.6; return; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.onstart = ()=>{ listening=true; micIndicator.innerText='Mic: listening... (click to stop)'; micBtn.style.background='#0b63ff'; }
-  recognition.onend = ()=>{ listening=false; micIndicator.innerText='Mic: idle'; micBtn.style.background=''; }
-  recognition.onerror = (e)=>{ listening=false; micIndicator.innerText='Mic: error'; console.warn('Mic error',e); }
-  recognition.onresult = (ev)=>{ const spoken = ev.results[0][0].transcript; inputEl.value = spoken; sendText(spoken); inputEl.value=''; };
-  micIndicator.innerText='Mic: ready (click mic)';
+  // Format text with markdown-like bold
+  const formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+  bubble.innerHTML = formatted;
+
+  const ts = document.createElement('span');
+  ts.className = 'timestamp';
+  ts.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  bubble.appendChild(ts);
+
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  chatMessages.appendChild(row);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
-micBtn.addEventListener('click', ()=>{
-  if(!recognition){ alert('Microphone not supported in this browser. Use Chrome/Brave and/or host the page on GitHub Pages to enable mic.'); return; }
-  if(!listening){ try{ recognition.start(); } catch(e){ console.warn(e); } } else recognition.stop();
+
+let typingRow = null;
+function showTyping() {
+  botIsTyping = true;
+  typingRow = document.createElement('div');
+  typingRow.className = 'msg-row';
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar bot'; avatar.textContent = '🤖';
+  const indicator = document.createElement('div');
+  indicator.className = 'typing-indicator';
+  indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+  typingRow.appendChild(avatar);
+  typingRow.appendChild(indicator);
+  chatMessages.appendChild(typingRow);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTyping() {
+  botIsTyping = false;
+  if (typingRow) { typingRow.remove(); typingRow = null; }
+}
+
+// ── RESET ──
+function resetChat() {
+  if (!confirm('Reset the conversation? This will clear all messages.')) return;
+  chatMessages.innerHTML = `
+    <div class="welcome-msg">
+      <div class="welcome-emoji">👋</div>
+      <div class="welcome-title">Namaste! I'm AI Sathi</div>
+      <div class="welcome-sub">Your personal mental wellness companion during exams. I'm here to listen, support, and guide you — no judgment, always kind.</div>
+    </div>`;
+  messageHistory = [];
+  document.getElementById('chips').innerHTML = `
+    <span class="chip" onclick="sendQuick('Hello')">👋 Say Hello</span>
+    <span class="chip" onclick="sendQuick('I am stressed')">😰 I'm stressed</span>
+    <span class="chip" onclick="sendQuick('Give me a study tip')">📚 Study tip</span>
+    <span class="chip" onclick="sendQuick('I need motivation')">🔥 Motivate me</span>
+    <span class="chip" onclick="sendQuick('How to breathe to calm down')">🌿 Calm me</span>`;
+}
+
+// ── EXPORT ──
+function exportChat() {
+  if (messageHistory.length === 0) { alert('No messages to export yet!'); return; }
+  const content = messageHistory.map(m => `[${m.role.toUpperCase()}]: ${m.text}`).join('\n\n');
+  const blob = new Blob([`AI SATHI – Chat Export\nBy Sunil Pant\n${new Date().toLocaleString()}\n\n` + content], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ai-sathi-chat.txt';
+  a.click();
+}
+
+// ── KEYBOARD ──
+userInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 
-/* ---------- Init ---------- */
-initMic();
-setTimeout(()=> pushMessage("Namaste! I'm AI Sathi — friendly study & mental support buddy. Ask me about exams, pressure, sleep, confidence or say 'how' after a topic for step-by-step help.", 'bot'), 300);
+userInput.addEventListener('input', () => {
+  userInput.style.height = 'auto';
+  userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
+});
 
+// ── INITIAL GREETING ──
+setTimeout(() => {
+  addMessage("Namaste! 🙏 I'm AI Sathi — your mental wellness companion during exams. I'm made with love by Sunil Pant to support students like you. Whether you're stressed, anxious, struggling to focus, or just need someone to talk to — I'm here! How are you feeling today? 💙", 'bot');
+}, 600);
 </script>
-
 </body>
 </html>
